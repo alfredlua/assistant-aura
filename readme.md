@@ -1,3 +1,5 @@
+# Assistant Aura
+
 This is an attempt to reimplement Claude computer use but with Gemini.
 
 Updates:
@@ -5,6 +7,8 @@ Updates:
 - 14/1/2025: I created a basic terminal-based chat app that can visit websites (and websites within websites) and summarize them. It has several tools: visit a URL, scrape a URL with Beautiful Soup into a temp file, prase a file with an LLM, and take a screenshot. 
 
 ---
+
+## What it can do (for now)
 
 For "Go to sciurls.com, find the first 3 articles, visit each of the links, and tell me what each is about", it returned:
 
