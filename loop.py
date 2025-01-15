@@ -4,6 +4,7 @@ A loop that calls the Gemini API and several tools.
 
 import os
 from dotenv import load_dotenv 
+from onboarding_message import intro
 
 import google.generativeai as genai
 
@@ -93,7 +94,7 @@ async def loop():
   
   chat = model.start_chat()
 
-  print("Aura: Hello! How can I help you today? (Type 'exit' or 'quit' to end the chat)")
+  print(f"{intro}🤵🏻 Aura: Hello! How can I help you today? (Type 'quit' to end the chat)\n")
 
   while True:
     try:
