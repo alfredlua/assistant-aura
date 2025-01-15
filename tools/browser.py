@@ -11,7 +11,7 @@ def visit_website(url: str):
   import subprocess
   import platform
 
-  print(f'Using visit_website with {url}\n')
+  print(f'🤵🏻 Opening your browser and visiting {url}...\n')
 
   if platform.system() == 'Darwin':  # macOS
     subprocess.run(["open", url])
@@ -23,28 +23,28 @@ def visit_website(url: str):
   return f"I have opened {url}."
 
 def scrape_source(url: str):
-    """
-    Scrape the source of a given website.
-    
-    Args:
-      url: The website URL to scrape.
-    
-    Returns:
-      A string containing the path to the website source, or if it fails, a string that says it failed.
-    """
-    import requests
-    from bs4 import BeautifulSoup
+  """
+  Scrape the source of a given website.
+  
+  Args:
+    url: The website URL to scrape.
+  
+  Returns:
+    A string containing the path to the website source, or if it fails, a string that says it failed.
+  """
+  import requests
+  from bs4 import BeautifulSoup
 
-    print(f'Using scrape_source with {url}\n')
+  print(f'🤵🏻 Scraping the web source of {url}...\n')
 
-    response = requests.get(url)
-    if response.status_code == 200:
-      soup = BeautifulSoup(response.content, 'html.parser')
-      with open("temp/temp.html", "w") as temp_file:
-        temp_file.write(soup.prettify())
-      return "temp/temp.html"
-    else:
-      return "Failed to scrape the website source."
+  response = requests.get(url)
+  if response.status_code == 200:
+    soup = BeautifulSoup(response.content, 'html.parser')
+    with open("temp/temp.html", "w") as temp_file:
+      temp_file.write(soup.prettify())
+    return "temp/temp.html"
+  else:
+    return "Failed to scrape the website source."
     
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -63,7 +63,7 @@ def scrape_dynamic_source(url: str):
     A string containing the path to the website source, or if it fails, a string that says it failed.
   """
 
-  print(f'Using scrape_source with {url}\n')
+  print(f'🤵🏻 Scraping the web source of {url} with Selenium...\n')
 
   try:
     chrome_options = Options()

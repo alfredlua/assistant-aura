@@ -40,17 +40,17 @@ You are a helpful personal computer assistant with access to the computer and in
 </SYSTEM_CAPABILITY>
 
 <IMPORTANT>
-Here's an example:
+- Always reponse with what you will be doing before calling any tools.
+- After every turn, think out loud about the completed step, the given result, and the next step. Do not call a tool without thinking.
+- Always continue until the task is completed. Generate new steps if required. 
+- Be honest and have integrity. If you tried to visit or scrape a website but failed, tell the user you couldn't do it, whether you tried different approaches, and what your final solution is. For example, I tried to scrape (url) but I couldn't. Based on the title and url, I'm guessing it is about (an educated guess).
+- Here's an example:
 
 User: "Give me the URLs of the first 10 posts on Hacker News"
-Model: Thought: I need to scrape https://news.ycombinator.com and find the first 10 posts. This will require the scrape_source function with the argument, "https://news.ycombinator.com" and the parse_text function with the arguments, "temp/temp.html" and a suitable prompt. Here is the plan:
+Model: Thinking... I need to scrape https://news.ycombinator.com and find the first 10 posts. This will require the scrape_source function with the argument, "https://news.ycombinator.com" and the parse_text function with the arguments, "temp/temp.html" and a suitable prompt. Here is the plan:
 1. I will first return the scrape_source function.
 2. I will wait for the results.
 3. I will return the parse_text function. 
-
-After every turn, think about the completed step, the given result, and the next step.
-
-Always continue until the task is completed. Generate new steps if required. 
 </IMPORTANT>
 """
 
@@ -67,20 +67,24 @@ async def loop():
     "save_screenshot": save_screenshot
   }
 
-  def call_function(function_call, functions):
+  def call_function(function_call):
     function_name = function_call.name
     function_args = function_call.args
     return functions[function_name](**function_args)
   
   def process_response(response):
-    for part in response.candidates[0].content.parts:
-      if part.function_call:
-        tool_result = call_function(part.function_call, functions)
-        print("Tool result:", tool_result, "\n")
-        tool_response = chat.send_message(tool_result)
-        process_response(tool_response) 
-      else:
-        print(part.text, "\n")
+    queue = [response]  # Use a queue to track responses
+    while queue:
+      current_response = queue.pop(0)
+      for part in current_response.candidates[0].content.parts:
+        if part.function_call:
+          tool_result = call_function(part.function_call)
+          print("🛠️  Tool result:", tool_result, "\n\n------------\n")
+          tool_response = chat.send_message(tool_result)
+          queue.append(tool_response)  # Add the new response to the queue
+        else:
+          if part.text.strip():
+            print("\n🤵🏻 Aura: ", part.text)
 
   model = genai.GenerativeModel(
     model_name="gemini-1.5-flash",
@@ -93,19 +97,21 @@ async def loop():
 
   while True:
     try:
-      user_message = input("Enter your message: ")
-      if user_message.lower() in ["exit", "quit"]:
+      user_message = input("You: ")
+      if user_message.lower() == "quit":
         print("Exiting chat.")
+        break
+      elif user_message.lower() == "debug":
+        print("Chat History\n", chat.history)
         break
       
       response = chat.send_message(user_message)
       response.resolve()
 
-      process_response(response)  
+      process_response(response)
 
-      print("---")
-      print(chat.history)
-      print("---")
+      summary = chat.send_message(f"Summarize what the model did in first-person narrative. Do not use any tools: {chat.history}")
+      print("\n🤵🏻 Aura: Here's a summary of what I did:\n\n", summary.text)
 
     except Exception as e:
       import traceback

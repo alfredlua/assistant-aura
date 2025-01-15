@@ -20,7 +20,7 @@ def parse_text(path: str, instruction: str) -> str:
     A json of the result.
   """
 
-  print(f'Using parse_text with {path} and {instruction}\n')
+  print(f'🤵🏻 Parsing text in {path} with the instruction: {instruction}...\n')
 
   with open(path, 'r') as file:
     text = file.read()

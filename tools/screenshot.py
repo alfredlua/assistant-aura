@@ -4,6 +4,8 @@ def save_screenshot():
   import os
   from datetime import datetime
 
+  print(f'🤵🏻 Saving a screenshot...\n')
+
   # Create the screenshots directory if it doesn't exist
   if not os.path.exists('screenshots'):
     os.makedirs('screenshots')
