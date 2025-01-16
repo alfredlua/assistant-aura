@@ -24,7 +24,7 @@ def visit_website(url: str):
 
 def scrape_static_source(url: str):
   """
-  Scrape the source of a given website.
+  Scrape the source of a given static website using Beautiful Soup.
   
   Args:
     url: The website URL to scrape.
