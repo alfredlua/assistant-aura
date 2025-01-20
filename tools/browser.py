@@ -22,9 +22,9 @@ def visit_website(url: str):
 
   return f"I have opened {url}."
 
-def scrape_source(url: str):
+def scrape_static_source(url: str):
   """
-  Scrape the source of a given website.
+  Scrape the source of a given static website using Beautiful Soup.
   
   Args:
     url: The website URL to scrape.
@@ -35,7 +35,7 @@ def scrape_source(url: str):
   import requests
   from bs4 import BeautifulSoup
 
-  print(f'🤵🏻 Scraping the web source of {url}...\n')
+  print(f'🤵🏻 Scraping the web source of {url} with Beautiful Soup...\n')
 
   response = requests.get(url)
   if response.status_code == 200:
