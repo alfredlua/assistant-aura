@@ -5,7 +5,7 @@
 This is an attempt to reimplement Claude computer use but with Gemini.
 
 Updates:
-
+- 17/1/2015: I added support for Claude 3 Haiku (to keep cost low).
 - 14/1/2025: I created a basic terminal-based chat app that can visit websites (and websites within websites) and summarize them. It has several tools: visit a URL, scrape a URL with Beautiful Soup into a temp file, parse a file with an LLM, and take a screenshot. 
 
 ---
