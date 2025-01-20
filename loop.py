@@ -9,13 +9,9 @@ from onboarding_message import intro
 
 import google.generativeai as genai
 
-<<<<<<< Updated upstream
-=======
-from config import SYSTEM_PROMPT, CLAUDE_TOOLS, ORCHESTRATOR_PROMPT, PLAN_CRITIC_PROMPT, RESEARCHER_PROMPT, PARSER_PROMPT
+from config import ORCHESTRATOR_PROMPT, PLAN_CRITIC_PROMPT, RESEARCHER_PROMPT, PARSER_PROMPT
 from assistant import Assistant
->>>>>>> Stashed changes
-from tools.screenshot import save_screenshot
-from tools.browser import scrape_source
+from tools.browser import scrape_static_source, scrape_dynamic_source
 from tools.parser import parse_text
 from utils import extract_xml
 
@@ -68,42 +64,6 @@ async def loop():
   """
   genai.configure(api_key=api_key)
 
-<<<<<<< Updated upstream
-  tool_collection = [save_screenshot, scrape_source, parse_text]
-  functions = {
-    "scrape_source": scrape_source,
-    "parse_text": parse_text,
-    "save_screenshot": save_screenshot
-  }
-
-  def call_function(function_call):
-    function_name = function_call.name
-    function_args = function_call.args
-    return functions[function_name](**function_args)
-  
-  def process_response(response):
-    queue = [response]  # Use a queue to track responses
-    while queue:
-      current_response = queue.pop(0)
-      for part in current_response.candidates[0].content.parts:
-        if part.function_call:
-          tool_result = call_function(part.function_call)
-          print("🛠️  Tool result:", tool_result, "\n\n------------\n")
-          tool_response = chat.send_message(tool_result)
-          queue.append(tool_response)  # Add the new response to the queue
-        else:
-          if part.text.strip():
-            print("\n🤵🏻 Aura: ", part.text)
-
-  model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    system_instruction=SYSTEM_PROMPT,
-    tools=tool_collection)
-  
-  chat = model.start_chat()
-
-  print(f"{intro}🤵🏻 Aura: Hello! How can I help you today? (Type 'quit' to end the chat)\n")
-=======
   plan = []
   orchestrator = Assistant(
     role_prompt=ORCHESTRATOR_PROMPT, 
@@ -120,7 +80,6 @@ async def loop():
     tools=[parse_text])
 
   print(f"{intro}🤵🏻 Aura: Hello! How can I help? (Type 'quit' to end the chat)\n")
->>>>>>> Stashed changes
 
   while True:
     try:
@@ -128,19 +87,6 @@ async def loop():
       if user_message.lower() == "quit":
         print("Exiting chat.")
         break
-<<<<<<< Updated upstream
-      elif user_message.lower() == "debug":
-        print("Chat History\n", chat.history)
-        break
-      
-      response = chat.send_message(user_message)
-      response.resolve()
-
-      process_response(response)
-
-      summary = chat.send_message(f"Summarize what the model did in first-person narrative. Do not use any tools: {chat.history}")
-      print("\n🤵🏻 Aura: Here's a summary of what I did:\n\n", summary.text)
-=======
       # elif user_message.lower() == "restart":
       #   Assistant.messages = []
       #   continue
@@ -200,7 +146,6 @@ async def loop():
 
         if plan_list[-1]["status"].lower() == "completed":
           all_completed = True
->>>>>>> Stashed changes
 
     except Exception as e:
       import traceback
