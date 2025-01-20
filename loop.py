@@ -9,9 +9,15 @@ from onboarding_message import intro
 
 import google.generativeai as genai
 
+<<<<<<< Updated upstream
+=======
+from config import SYSTEM_PROMPT, CLAUDE_TOOLS, ORCHESTRATOR_PROMPT, PLAN_CRITIC_PROMPT, RESEARCHER_PROMPT, PARSER_PROMPT
+from assistant import Assistant
+>>>>>>> Stashed changes
 from tools.screenshot import save_screenshot
 from tools.browser import scrape_source
 from tools.parser import parse_text
+from utils import extract_xml
 
 load_dotenv()
 api_key=os.getenv("GOOGLE_GEMINI_API_KEY")
@@ -62,6 +68,7 @@ async def loop():
   """
   genai.configure(api_key=api_key)
 
+<<<<<<< Updated upstream
   tool_collection = [save_screenshot, scrape_source, parse_text]
   functions = {
     "scrape_source": scrape_source,
@@ -96,6 +103,24 @@ async def loop():
   chat = model.start_chat()
 
   print(f"{intro}🤵🏻 Aura: Hello! How can I help you today? (Type 'quit' to end the chat)\n")
+=======
+  plan = []
+  orchestrator = Assistant(
+    role_prompt=ORCHESTRATOR_PROMPT, 
+    tools=[])
+  plan_critic = Assistant(
+    role_prompt=PLAN_CRITIC_PROMPT,
+    tools=[]
+  )
+  researcher = Assistant(
+    role_prompt=RESEARCHER_PROMPT, 
+    tools=[scrape_static_source, scrape_dynamic_source])
+  parser = Assistant(
+    role_prompt=PARSER_PROMPT, 
+    tools=[parse_text])
+
+  print(f"{intro}🤵🏻 Aura: Hello! How can I help? (Type 'quit' to end the chat)\n")
+>>>>>>> Stashed changes
 
   while True:
     try:
@@ -103,6 +128,7 @@ async def loop():
       if user_message.lower() == "quit":
         print("Exiting chat.")
         break
+<<<<<<< Updated upstream
       elif user_message.lower() == "debug":
         print("Chat History\n", chat.history)
         break
@@ -114,6 +140,67 @@ async def loop():
 
       summary = chat.send_message(f"Summarize what the model did in first-person narrative. Do not use any tools: {chat.history}")
       print("\n🤵🏻 Aura: Here's a summary of what I did:\n\n", summary.text)
+=======
+      # elif user_message.lower() == "restart":
+      #   Assistant.messages = []
+      #   continue
+      elif user_message.lower() == "debug":
+        print("Chat History\n\nOrchestrator\n", orchestrator.print_messages(), "\n\nCritic\n", plan_critic.print_messages(), "\n\nResearcher\n", researcher.print_messages(), "\n\nParser\n", parser.print_messages())
+        break
+      elif user_message.lower() == "log":
+        print("Log\n\nOrchestrator\n", orchestrator.log, "\n\nCritic\n", plan_critic.log, "\n\nResearcher\n", researcher.log, "\n\nParser\n", parser.log)
+        break
+      
+      orchestrator_response = orchestrator.process_user_input(user_message, "user")
+
+      # The plan critic will work with the orchestrator to improve the plan.
+      iter = 0
+      while iter < 3:
+        iter += 1
+        critic_response = plan_critic.process_user_input(orchestrator_response, "orchestrator")
+        if "The plan is good to go!" in critic_response:
+          break
+        else:
+          orchestrator_response = orchestrator.process_user_input(critic_response, "plan_critic")
+
+      # Loop for executing the plan
+      all_completed = False
+      while all_completed == False:
+
+        # Once the plan is good to be executed, display the plan and update it after every step. If the final answer is available, display it and end the loop.
+        plan = extract_xml(orchestrator_response, "plan")
+        final_answer = extract_xml(orchestrator_response, "final_answer")
+        if final_answer:
+          print(f"🤵🏻 Aura: Here's the answer to your request: \n\n{final_answer}")
+          break
+        elif plan:
+          # print(f"\nPLAN:\n{plan}")
+          plan_list = json.loads(plan.strip())["plan"]
+        else:
+          print("There's an issue extracting the plan.")
+
+        # Loop through every step
+        for step in plan_list:
+          if step["status"].lower() in ["completed", "failed"]:
+            continue
+          elif step["status"].lower() == "to do":
+            if step["teammate"].lower() == "researcher":
+              researcher_response = researcher.process_user_input(step["step"], "orchestrator")
+              orchestrator_response = orchestrator.process_user_input(researcher_response, "researcher")
+              break
+            elif step["teammate"].lower() == "parser":
+              parser_response = parser.process_user_input(step["step"], "orchestrator")
+              orchestrator_response = orchestrator.process_user_input(parser_response, "parser")
+              break
+            elif step["teammate"].lower() == "orchestrator":
+              orchestrator_response = orchestrator.process_user_input(step["step"], "user")
+              break
+            else:
+              print("Invalid teammate specified.")
+
+        if plan_list[-1]["status"].lower() == "completed":
+          all_completed = True
+>>>>>>> Stashed changes
 
     except Exception as e:
       import traceback

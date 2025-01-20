@@ -35,7 +35,11 @@ def scrape_source(url: str):
   import requests
   from bs4 import BeautifulSoup
 
+<<<<<<< Updated upstream
   print(f'🤵🏻 Scraping the web source of {url}...\n')
+=======
+  # print(f'🤵🏻 Scraping the web source of {url} with Beautiful Soup...\n')
+>>>>>>> Stashed changes
 
   response = requests.get(url)
   if response.status_code == 200:
