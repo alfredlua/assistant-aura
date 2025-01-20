@@ -11,7 +11,7 @@ def visit_website(url: str):
   import subprocess
   import platform
 
-  print(f'🤵🏻 Opening your browser and visiting {url}...\n')
+  # print(f'🤵🏻 Opening your browser and visiting {url}...\n')
 
   if platform.system() == 'Darwin':  # macOS
     subprocess.run(["open", url])
@@ -40,9 +40,9 @@ def scrape_source(url: str):
   response = requests.get(url)
   if response.status_code == 200:
     soup = BeautifulSoup(response.content, 'html.parser')
-    with open("temp/temp.html", "w") as temp_file:
+    with open("temp/working_memory.txt", "w") as temp_file:
       temp_file.write(soup.prettify())
-    return "temp/temp.html"
+    return "I have saved the web source to temp/working_memory.txt."
   else:
     return "Failed to scrape the website source."
     
@@ -63,7 +63,7 @@ def scrape_dynamic_source(url: str):
     A string containing the path to the website source, or if it fails, a string that says it failed.
   """
 
-  print(f'🤵🏻 Scraping the web source of {url} with Selenium...\n')
+  # print(f'🤵🏻 Scraping the web source of {url} with Selenium...\n')
 
   try:
     chrome_options = Options()
@@ -82,11 +82,11 @@ def scrape_dynamic_source(url: str):
     page_source = driver.page_source
     
     # Save to a temporary file
-    output_path = "temp/temp.html"
+    output_path = "temp/working_memory.txt"
     with open(output_path, "w") as temp_file:
         temp_file.write(page_source)
     
     driver.quit()
-    return output_path
+    return "I have saved the web source to temp/working_memory.txt."
   except Exception as e:
     return f"Failed to scrape the dynamic website source. Error: {e}"
