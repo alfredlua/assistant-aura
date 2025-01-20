@@ -6,7 +6,7 @@ This is an attempt to reimplement Claude computer use but with Gemini.
 
 Updates:
 
-- 20/1/2025: I split the assistant into four agents: Orchestrator, Plan Critic, Researcher, and Planner (to learn about creating multi-agent systems). See `multi-agent` branch. 
+- 20/1/2025: I split the assistant into four agents: Orchestrator, Plan Critic, Researcher, and Planner (to learn about creating multi-agent systems). See [`multi-agent` branch](https://github.com/alfredlua/assistant-aura/tree/multi-agent). 
 - 17/1/2025: I added support for Claude 3 Haiku (to keep cost low).
 - 14/1/2025: I created a basic terminal-based chat app that can visit websites (and websites within websites) and summarize them. It has several tools: visit a URL, scrape a URL with Beautiful Soup into a temp file, parse a file with an LLM, and take a screenshot. 
 
