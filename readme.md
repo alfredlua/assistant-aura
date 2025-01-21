@@ -2,7 +2,7 @@
 
 ![Welcome to Aura](/img/onboarding.jpeg)
 
-This is an attempt to reimplement Claude computer use but with Gemini.
+This is an attempt to reimplement Claude's computer use but with Gemini.
 
 Updates:
 
@@ -14,29 +14,26 @@ Updates:
 
 ## How it works
 
+This AI assistant consists of four agents:
+
+1. **Orchestrator:** This agent comes up with the plan for the task, coordinates the work with the various agents, and updates the plan if necessary.
+2. **Plan Critic:** This agent evaluates the plan by the Orchestrator and suggests improvements, up to three times.
+3. **Researcher:** This agent has tools to scrape the source code of a website and save it to a file (temp/working_memory.txt).
+4. **Parser:** This agent has a tool to extract information from temp/working_memory.txt using an LLM.
+
+Here’s a rough flowchart of how the agents work together to complete a task:
+
 ![Multi-agent chart](/img/multi-agent-chart.jpeg)
 
 ## What it can do (for now)
 
 ![Test example](/img/example.jpeg)
 
-Upon receiving a detailed instruction, it can visit websites (and websites within websites) and summarize them. After it completes the task, it will also give you a report on what it did. 
+Upon receiving an instruction, it can visit websites (and websites within websites) and summarize them. 
 
-Here are some examples:
+For "summarize the top post on hn", it returned:
 
-For "Go to sciurls.com, find the first 3 articles, visit each of the links, and tell me what each is about", it returned:
-
->Here's a summary of the three articles:
->
->1. **OpenAI's o3 Chatbot and the Quest for AGI:** This article discusses OpenAI's new chatbot model, o3, which achieved a record-breaking score on the ARC-AGI test, a benchmark for assessing AI's reasoning and generalization abilities.  However, the article emphasizes the challenges in definitively measuring AGI and highlights the high computational cost and lack of a universally agreed-upon definition of AGI.
-> 
->2. **A New Formation Mechanism for the Pluto-Charon Binary System:** This article summarizes a study proposing a novel "kiss and capture" mechanism for the formation of Pluto's moon, Charon, using simulations with solid proto-bodies instead of the previously assumed fluid ones.
->
->3. **Sang-Wook Han on Quantum Computing at KIST:** This article features an interview with Sang-Wook Han, discussing the potential of quantum computing and the challenges in its widespread industrial application.  It highlights the technology's potential across various fields while acknowledging the years needed before industrial-scale production becomes a reality.
-
-For "Go to Hacker News, find the first 3 posts, visit each of the links, and tell me what each is about", it returned:
-
-> The first story is about malicious NPM packages targeting Cursor.com, published by a Snyk security researcher. The second story is about the release of OpenZFS 2.3.0, which includes features like RAIDZ expansion and improved deduplication performance.  The third is about Shavarsh Karapetyan, a Soviet-Armenian finswimming champion who rescued dozens of people from a trolleybus that plunged into Lake Yerevan.
+>This post details reverse engineering the Bambu Connect Electron app, highlighting its inherent insecurity due to relying on security through obscurity. The instructions involve extracting the app's main.js file, fixing an asar archive, and using Ghidra to locate and extract a private key. Finally, the post provides a Python script to further deobfuscate and extract certificates and the private key from the app. [https://wiki.rossmanngroup.com/wiki/Reverse_Engineering_Bambu_Connect](https://wiki.rossmanngroup.com/wiki/Reverse_Engineering_Bambu_Connect)
 
 ---
 
@@ -44,6 +41,6 @@ For "Go to Hacker News, find the first 3 posts, visit each of the links, and tel
 
 Well, it wouldn't be an app without issues. So, here goes:
 
-- It is lazy. If you ask it, "what's the first post on Hacker News?", it will only find the title of the post and guess what it is about. You have to specifically instruct it to visit the post. Oh, where's the AI that will replace me?
-- It doesn't work well with dynamically-loaded sites. I have added a function for scraping with Selenium but sites such as Reddit blocks Selenium.
-- It does fail sometimes. Like humans, once it failed, it will sometimes be too demotivated to try again. But like all computer systems, you can turn it off and on and try again.
+- ~~It is lazy. If you ask it, "what's the first post on Hacker News?", it will only find the title of the post and guess what it is about. You have to specifically instruct it to visit the post. Oh, where's the AI that will replace me?~~ I updated the system prompt to make it less lazy.
+- It doesn't work well with dynamically-loaded sites. I have added a function for scraping with Selenium but sites such as Reddit block Selenium.
+- It does fail sometimes. Like humans, once it fails, it will sometimes be too demotivated to try again. But like all computer systems, you can turn it off and on and try again.
