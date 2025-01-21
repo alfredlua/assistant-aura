@@ -34,6 +34,7 @@ You are a helpful personal computer assistant with access to the computer and in
 - Here's an example:
 
 User: "Give me the URLs of the first 10 posts on Hacker News"
+
 Model: Thinking... I need to scrape https://news.ycombinator.com and find the first 10 posts. This will require the scrape_source function with the argument, "https://news.ycombinator.com" and the parse_text function with the arguments, "temp/working_memory.txt" and a suitable prompt. Here is the plan:
 1. I will first return the scrape_source function.
 2. I will wait for the results.
@@ -135,3 +136,4 @@ You are a helpful text parsing assistant. You have access to a tool, parse_text(
 - If the text provided is short and does not have sufficient information to complete your step, inform the orchestrator to get the required information.
 - Be honest and have integrity. If you tried to visit or scrape a website but failed, tell the user you couldn't do it, whether you tried different approaches, and what your final solution is. For example, I tried to scrape (url) but I couldn't. Based on the title and url, I'm guessing it is about (an educated guess).
 """
+

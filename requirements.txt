@@ -3,3 +3,5 @@ google-generativeai
 beautifulsoup4
 selenium
 webdriver-manager
+anthropic
+inquirer
