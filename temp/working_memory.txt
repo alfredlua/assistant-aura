@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html class="client-nojs" dir="ltr" lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   Reverse Engineering Bambu Connect - Consumer Action Taskforce
+  </title>
+  <script>
+   document.documentElement.className="client-js";RLCONF={"wgBreakFrames":false,"wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgRequestId":"f8f67692587d99dd1edb16aa","wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Reverse_Engineering_Bambu_Connect","wgTitle":"Reverse Engineering Bambu Connect","wgCurRevisionId":3424,"wgRevisionId":3424,"wgArticleId":686,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Bambu Lab"],"wgPageViewLanguage":"en","wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgRelevantPageName":"Reverse_Engineering_Bambu_Connect","wgRelevantArticleId":686,"wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],
+"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","pageVariantFallbacks":"en"},"wgEditSubmitButtonLabelPublish":false};RLSTATE={"site.styles":"ready","user.styles":"ready","user":"ready","user.options":"loading","ext.cite.styles":"ready","skins.monobook.styles":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready"};RLPAGEMODULES=["ext.cite.ux-enhancements","site","mediawiki.page.ready","skins.monobook.scripts","ext.visualEditor.desktopArticleTarget.init","ext.visualEditor.targetLoader"];
+  </script>
+  <script>
+   (RLQ=window.RLQ||[]).push(function(){mw.loader.impl(function(){return["user.options@12s5i",function($,jQuery,require,module){mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
+}];});});
+  </script>
+  <link href="/load.php?lang=en&amp;modules=ext.cite.styles%7Cext.visualEditor.desktopArticleTarget.noscript%7Cskins.monobook.styles&amp;only=styles&amp;skin=monobook" rel="stylesheet"/>
+  <script async="" src="/load.php?lang=en&amp;modules=startup&amp;only=scripts&amp;raw=1&amp;skin=monobook">
+  </script>
+  <meta content="" name="ResourceLoaderDynamicStyles"/>
+  <link href="/load.php?lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=monobook" rel="stylesheet"/>
+  <meta content="MediaWiki 1.42.4" name="generator"/>
+  <meta content="max-image-preview:standard" name="robots"/>
+  <meta content="telephone=no" name="format-detection"/>
+  <meta content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0" name="viewport"/>
+  <link href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=edit" rel="alternate" title="Edit" type="application/x-wiki"/>
+  <link href="/favicon.ico" rel="icon"/>
+  <link href="/opensearch_desc.php" rel="search" title="Consumer Action Taskforce (en)" type="application/opensearchdescription+xml"/>
+  <link href="https://wiki.rossmanngroup.com/api.php?action=rsd" rel="EditURI" type="application/rsd+xml"/>
+  <link href="/index.php?title=Special:RecentChanges&amp;feed=atom" rel="alternate" title="Consumer Action Taskforce Atom feed" type="application/atom+xml"/>
+ </head>
+ <body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject mw-editable page-Reverse_Engineering_Bambu_Connect rootpage-Reverse_Engineering_Bambu_Connect skin-monobook action-view skin--responsive">
+  <div id="globalWrapper">
+   <div id="column-content">
+    <div class="mw-body" id="content" role="main">
+     <a id="top">
+     </a>
+     <div id="siteNotice">
+      <div data-nosnippet="" id="localNotice">
+       <div class="sitenotice" dir="ltr" lang="en">
+        <p>
+         Please note that all submissions to the site are subject to the wiki's licence, CC 4.0 BY-SA, as found
+         <a href="/wiki/Consumer_Action_Taskforce:Copyrights" title="Consumer Action Taskforce:Copyrights">
+          here
+         </a>
+        </p>
+       </div>
+      </div>
+     </div>
+     <div class="mw-indicators">
+     </div>
+     <h1 class="firstHeading mw-first-heading" id="firstHeading">
+      <span class="mw-page-title-main">
+       Reverse Engineering Bambu Connect
+      </span>
+     </h1>
+     <div class="monobook-body" id="bodyContent">
+      <div id="siteSub">
+       From Consumer Action Taskforce
+      </div>
+      <div id="contentSub">
+       <div id="mw-content-subtitle">
+       </div>
+      </div>
+      <div id="jump-to-nav">
+      </div>
+      <a class="mw-jump-link" href="#column-one">
+       Jump to navigation
+      </a>
+      <a class="mw-jump-link" href="#searchInput">
+       Jump to search
+      </a>
+      <!-- start content -->
+      <div class="mw-body-content" id="mw-content-text">
+       <div class="mw-content-ltr mw-parser-output" dir="ltr" lang="en">
+        <div style="padding-left:1.6rem;margin-bottom:0.5rem;">
+         <i>
+          This is part of the
+          <a href="/wiki/Bambu_Lab_Authorization_Control_System" title="Bambu Lab Authorization Control System">
+           Bambu Lab Authorization Control System
+          </a>
+          article.
+         </i>
+        </div>
+        <p>
+         Bambu Connect is an
+         <a class="mw-redirect" href="/wiki/Help:Electron" title="Help:Electron">
+          Electron
+         </a>
+         App with Security through Obscurity principles, hence it is inherently insecure.
+        </p>
+        <p>
+         To read the main.js for further analysis or extracting the private key stored by Bambu in the app:
+        </p>
+        <ol>
+         <li>
+          Use the MacOs .dmg file, not the exe. Finding the needed decryption code is easier in the .dmg
+         </li>
+         <li>
+          Extract
+          <i>
+           bambu-connect-beta-darwin-arm64-v1.0.4_4bb9cf0.dmg
+          </i>
+          <sup class="reference" id="cite_ref-1">
+           <a href="#cite_note-1">
+            [1]
+           </a>
+          </sup>
+          , in there you can find the files of the underlying Electron app in
+          <i>
+           Bambu Connect (Beta).app/Contents/Resources
+          </i>
+          folder
+         </li>
+         <li>
+          The app uses asarmor to prevent easy reading, the key is stored in ./app.asar.unpacked/.vite/build/main.node and can be extracted. Unpacking app.asar without fixing it first will result in an encrypted main.js file and 100 GB of decoy files generated, don't try it.
+         </li>
+         <li>
+          Load main.node in Ghidra and Auto-Analyze it. Then search for the GetKey function, or press G and go to 0000b67e
+          <sup class="reference" id="cite_ref-2">
+           <a href="#cite_note-2">
+            [2]
+           </a>
+          </sup>
+         </li>
+         <li>
+          Write down the hex key, for this build it's B0AE6995063C191D2B404637FBC193AE10DAB86A6BC1B1DE67B5AEE6E03018A2
+         </li>
+         <li>
+          Install the npm package asarfix and use it to fix the archive:
+          <code>
+           npx asarfix app.asar -k B0AE6995063C191D2B404637FBC193AE10DAB86A6BC1B1DE67B5AEE6E03018A2 -o fixed.asar
+          </code>
+         </li>
+         <li>
+          Now you can extract it in cleartext with
+          <code>
+           npx asar extract fixed.asar src
+          </code>
+         </li>
+         <li>
+          ./src/.vite/build/main.js is minified, use any JavaScript beautifier to make it better readable. Interesting user code including the private key is at the end of the file.
+         </li>
+        </ol>
+        <h3>
+         <span class="mw-headline" id="Extracting_certs_and_private_key">
+          Extracting certs and private key
+         </span>
+         <span class="mw-editsection">
+          <span class="mw-editsection-bracket">
+           [
+          </span>
+          <a class="mw-editsection-visualeditor" href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;veaction=edit&amp;section=1" title="Edit section: Extracting certs and private key">
+           edit
+          </a>
+          <span class="mw-editsection-divider">
+           |
+          </span>
+          <a href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=edit&amp;section=1" title="Edit section's source code: Extracting certs and private key">
+           edit source
+          </a>
+          <span class="mw-editsection-bracket">
+           ]
+          </span>
+         </span>
+        </h3>
+        <p>
+         The private key and certs are further obfuscated, to get cleartext you need to do: Encrypted string from cy() -&gt; ure(string, key) -&gt; RC4 decryption -&gt;  decodeURIComponent() -&gt; final string.
+        </p>
+        <p>
+         Example Python reimplementation to extract the secrets, easy to run. Copy the content of t from function cy() in main.js and paste it here. After running, you have a private key from Bambu Lab.
+        </p>
+        <pre>import urllib.parse
+
+def cy():
+    t = [
+		# copy from main.js
+	]
+    return t
+
+def ure(t, e):
+    # RC4 implementation
+    r = list(range(256))
+    n = 0
+    s = ""
+    
+    # Key-scheduling algorithm (KSA)
+    for o in range(256):
+        n = (n + r[o] + ord(e[o % len(e)])) % 256
+        r[o], r[n] = r[n], r[o]
+    
+    # Pseudo-random generation algorithm (PRGA)
+    o = n = 0
+    for byte in t:
+        o = (o + 1) % 256
+        n = (n + r[o]) % 256
+        r[o], r[n] = r[n], r[o]
+        k = r[(r[o] + r[n]) % 256]
+        s += chr(byte ^ k)
+    
+    return s
+
+def lt(t, e):
+    r = cy()
+    n = t - 106
+    s = r[n]
+    s = ure(s, e)
+    return urllib.parse.unquote(s)
+
+def extract_certs_and_key():
+    try:
+        result = {}
+        result["Are"] = lt(106, "1o9B")
+        result["fre"] = lt(107, "FT2A")
+        result["private_key"] = lt(108, "Tlj0")
+        result["cert"] = lt(109, "NPub")
+        result["crl"] = lt(110, "x077")
+    except Exception as e:
+        print(f"Error extracting certs/key: {e}")
+
+    for key, value in result.items():
+        print(f"{key}:\n{value}\n")
+
+if __name__ == "__main__":
+    extract_certs_and_key()
+</pre>
+        <div class="mw-references-wrap">
+         <ol class="references">
+          <li id="cite_note-1">
+           <span class="mw-cite-backlink">
+            <a href="#cite_ref-1">
+             ↑
+            </a>
+           </span>
+           <span class="reference-text">
+            <a class="external free" href="https://public-cdn.bblmw.com/upgrade/bambu-connect/bambu-connect-beta-darwin-arm64-v1.0.4_4bb9cf0.dmg" rel="nofollow">
+             https://public-cdn.bblmw.com/upgrade/bambu-connect/bambu-connect-beta-darwin-arm64-v1.0.4_4bb9cf0.dmg
+            </a>
+           </span>
+          </li>
+          <li id="cite_note-2">
+           <span class="mw-cite-backlink">
+            <a href="#cite_ref-2">
+             ↑
+            </a>
+           </span>
+           <span class="reference-text">
+            <a class="external free" href="https://www.reddit.com/r/OrcaSlicer/comments/1i2t6l8/comment/m7tuf2i/" rel="nofollow">
+             https://www.reddit.com/r/OrcaSlicer/comments/1i2t6l8/comment/m7tuf2i/
+            </a>
+           </span>
+          </li>
+         </ol>
+        </div>
+        <!-- 
+NewPP limit report
+Cached time: 20250120124644
+Cache expiry: 86400
+Reduced expiry: false
+Complications: []
+CPU time usage: 0.010 seconds
+Real time usage: 0.031 seconds
+Preprocessor visited node count: 36/1000000
+Post‐expand include size: 0/209715200 bytes
+Template argument size: 0/209715200 bytes
+Highest expansion depth: 2/100
+Expensive parser function count: 0/100
+Unstrip recursion depth: 0/20
+Unstrip post‐expand size: 1332/5000000 bytes
+-->
+        <!--
+Transclusion expansion time report (%,ms,calls,template)
+100.00%    0.000      1 -total
+-->
+        <!-- Saved in parser cache with key mediawiki:pcache:idhash:686-0!canonical and timestamp 20250120124644 and revision id 3424. Rendering was triggered because: page-view
+ -->
+       </div>
+       <div class="printfooter" data-nosnippet="">
+        Retrieved from "
+        <a dir="ltr" href="https://wiki.rossmanngroup.com/index.php?title=Reverse_Engineering_Bambu_Connect&amp;oldid=3424">
+         https://wiki.rossmanngroup.com/index.php?title=Reverse_Engineering_Bambu_Connect&amp;oldid=3424
+        </a>
+        "
+       </div>
+      </div>
+      <div class="catlinks" data-mw="interface" id="catlinks">
+       <div class="mw-normal-catlinks" id="mw-normal-catlinks">
+        <a href="/wiki/Special:Categories" title="Special:Categories">
+         Category
+        </a>
+        :
+        <ul>
+         <li>
+          <a href="/wiki/Category:Bambu_Lab" title="Category:Bambu Lab">
+           Bambu Lab
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+      <!-- end content -->
+      <div class="visualClear">
+      </div>
+     </div>
+    </div>
+    <div class="visualClear">
+    </div>
+   </div>
+   <div id="column-one">
+    <h2>
+     Navigation menu
+    </h2>
+    <div aria-labelledby="p-cactions-label" class="portlet" id="p-cactions" role="navigation">
+     <h3 id="p-cactions-label">
+      Page actions
+     </h3>
+     <div class="pBody">
+      <ul>
+       <li class="selected mw-list-item" id="ca-nstab-main">
+        <a accesskey="c" href="/wiki/Reverse_Engineering_Bambu_Connect" title="View the content page [c]">
+         Page
+        </a>
+       </li>
+       <li class="mw-list-item" id="ca-talk">
+        <a accesskey="t" href="/wiki/Talk:Reverse_Engineering_Bambu_Connect" rel="discussion" title="Discussion about the content page [t]">
+         Discussion
+        </a>
+       </li>
+       <li class="selected mw-list-item" id="ca-view">
+        <a href="/wiki/Reverse_Engineering_Bambu_Connect">
+         Read
+        </a>
+       </li>
+       <li class="mw-list-item" id="ca-ve-edit">
+        <a accesskey="v" href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;veaction=edit" title="Edit this page [v]">
+         Edit
+        </a>
+       </li>
+       <li class="collapsible mw-list-item" id="ca-edit">
+        <a accesskey="e" href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=edit" title="Edit the source code of this page [e]">
+         Edit source
+        </a>
+       </li>
+       <li class="mw-list-item" id="ca-history">
+        <a accesskey="h" href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=history" title="Past revisions of this page [h]">
+         History
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div aria-labelledby="p-cactions-mobile-label" class="portlet mw-portlet mw-portlet-cactions-mobile" id="p-cactions-mobile" role="navigation">
+     <h3 id="p-cactions-mobile-label">
+      Page actions
+     </h3>
+     <div class="pBody">
+      <ul>
+       <li class="selected mw-list-item" id="main-mobile">
+        <a href="/wiki/Reverse_Engineering_Bambu_Connect" title="Page">
+         Page
+        </a>
+       </li>
+       <li class="mw-list-item" id="talk-mobile">
+        <a href="/wiki/Talk:Reverse_Engineering_Bambu_Connect" title="Discussion">
+         Discussion
+        </a>
+       </li>
+       <li class="mw-list-item" id="ca-more">
+        <a href="#p-cactions">
+         More
+        </a>
+       </li>
+       <li class="mw-list-item" id="ca-tools">
+        <a href="#p-tb" title="Tools">
+         Tools
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div aria-labelledby="p-personal-label" class="portlet" id="p-personal" role="navigation">
+     <h3 id="p-personal-label">
+      Personal tools
+     </h3>
+     <div class="pBody">
+      <ul>
+       <li class="mw-list-item" id="pt-anonuserpage">
+        Not logged in
+       </li>
+       <li class="mw-list-item" id="pt-anontalk">
+        <a accesskey="n" href="/wiki/Special:MyTalk" title="Discussion about edits from this IP address [n]">
+         Talk
+        </a>
+       </li>
+       <li class="mw-list-item" id="pt-anoncontribs">
+        <a accesskey="y" href="/wiki/Special:MyContributions" title="A list of edits made from this IP address [y]">
+         Contributions
+        </a>
+       </li>
+       <li class="mw-list-item" id="pt-createaccount">
+        <a href="/index.php?title=Special:CreateAccount&amp;returnto=Reverse+Engineering+Bambu+Connect" title="You are encouraged to create an account and log in; however, it is not mandatory">
+         Create account
+        </a>
+       </li>
+       <li class="mw-list-item" id="pt-login">
+        <a accesskey="o" href="/index.php?title=Special:UserLogin&amp;returnto=Reverse+Engineering+Bambu+Connect" title="You are encouraged to log in; however, it is not mandatory [o]">
+         Log in
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <div class="portlet" id="p-logo" role="banner">
+     <a class="mw-wiki-logo" href="/wiki/Mission_statement">
+     </a>
+    </div>
+    <div id="sidebar">
+     <div aria-labelledby="p-navigation-label" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" role="navigation">
+      <h3 id="p-navigation-label">
+       Navigation
+      </h3>
+      <div class="pBody">
+       <ul>
+        <li class="mw-list-item" id="n-Top-Contributors">
+         <a href="/wiki/Special:ContributionScores" title="Members of the wiki with the most edits">
+          Top Contributors
+         </a>
+        </li>
+        <li class="mw-list-item" id="n-recentchanges">
+         <a accesskey="r" href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]">
+          Recent changes
+         </a>
+        </li>
+        <li class="mw-list-item" id="n-randompage">
+         <a accesskey="x" href="/wiki/Special:Random" title="Load a random page [x]">
+          Random page
+         </a>
+        </li>
+        <li class="mw-list-item" id="n-All-pages">
+         <a href="/wiki/Special:AllPages" title="A filterable list of all pages">
+          All pages
+         </a>
+        </li>
+        <li class="mw-list-item" id="n-mainpage-description">
+         <a accesskey="z" href="/wiki/Mission_statement" title="Visit the main page [z]">
+          Main page
+         </a>
+        </li>
+        <li class="mw-list-item" id="n-Categories">
+         <a href="/wiki/Category:Wiki_root" title="Articles sorted by category">
+          Categories
+         </a>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div class="portlet" id="p-search" role="search">
+      <h3 id="p-search-label">
+       <label for="searchInput">
+        Search
+       </label>
+      </h3>
+      <div class="pBody" id="searchBody">
+       <form action="/index.php" id="searchform">
+        <input name="title" type="hidden" value="Special:Search"/>
+        <input accesskey="f" aria-label="Search Consumer Action Taskforce" autocapitalize="sentences" id="searchInput" name="search" placeholder="Search Consumer Action Taskforce" title="Search Consumer Action Taskforce [f]" type="search"/>
+        <input class="searchButton" id="searchButton" name="go" title="Go to a page with this exact name if it exists" type="submit" value="Go"/>
+        <input class="searchButton mw-fallbackSearchButton" id="mw-searchButton" name="fulltext" title="Search the pages for this text" type="submit" value="Search"/>
+       </form>
+      </div>
+     </div>
+     <div aria-labelledby="p-contribute-label" class="portlet mw-portlet mw-portlet-contribute" id="p-contribute" role="navigation">
+      <h3 id="p-contribute-label">
+       Contribute
+      </h3>
+      <div class="pBody">
+       <ul>
+        <li class="mw-list-item" id="n-How-to-help">
+         <a href="/wiki/How_to_help" title="A getting started guide">
+          How to help
+         </a>
+        </li>
+        <li class="mw-list-item" id="n-Adapt-videos-to-articles">
+         <a href="/wiki/Louis_Rossmann_-_Video_Directory" title="Videos on consumer rights to be turned into articles">
+          Adapt videos to articles
+         </a>
+        </li>
+        <li class="mw-list-item" id="n-Articles-in-need-of-work">
+         <a href="/wiki/Category:Articles_in_need_of_additional_work" title="Articles that require expansion,verification or adjustment">
+          Articles in need of work
+         </a>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div aria-labelledby="p-help-label" class="portlet mw-portlet mw-portlet-help" id="p-help" role="navigation">
+      <h3 id="p-help-label">
+       Help
+      </h3>
+      <div class="pBody">
+       <ul>
+        <li class="mw-list-item" id="n-help-mediawiki">
+         <a href="https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Contents">
+          Help about MediaWiki
+         </a>
+        </li>
+       </ul>
+      </div>
+     </div>
+     <div aria-labelledby="p-tb-label" class="portlet mw-portlet mw-portlet-tb" id="p-tb" role="navigation">
+      <h3 id="p-tb-label">
+       Tools
+      </h3>
+      <div class="pBody">
+       <ul>
+        <li class="mw-list-item" id="t-whatlinkshere">
+         <a accesskey="j" href="/wiki/Special:WhatLinksHere/Reverse_Engineering_Bambu_Connect" title="A list of all wiki pages that link here [j]">
+          What links here
+         </a>
+        </li>
+        <li class="mw-list-item" id="t-recentchangeslinked">
+         <a accesskey="k" href="/wiki/Special:RecentChangesLinked/Reverse_Engineering_Bambu_Connect" rel="nofollow" title="Recent changes in pages linked from this page [k]">
+          Related changes
+         </a>
+        </li>
+        <li class="mw-list-item" id="t-specialpages">
+         <a accesskey="q" href="/wiki/Special:SpecialPages" title="A list of all special pages [q]">
+          Special pages
+         </a>
+        </li>
+        <li class="mw-list-item" id="t-print">
+         <a accesskey="p" href="javascript:print();" rel="alternate" title="Printable version of this page [p]">
+          Printable version
+         </a>
+        </li>
+        <li class="mw-list-item" id="t-permalink">
+         <a href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;oldid=3424" title="Permanent link to this revision of this page">
+          Permanent link
+         </a>
+        </li>
+        <li class="mw-list-item" id="t-info">
+         <a href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=info" title="More information about this page">
+          Page information
+         </a>
+        </li>
+       </ul>
+      </div>
+     </div>
+    </div>
+    <a class="menu-toggle" href="#sidebar" id="sidebar-toggle" title="Jump to navigation">
+    </a>
+    <a class="menu-toggle" href="#p-personal" id="p-personal-toggle" title="user tools">
+    </a>
+    <a class="menu-toggle" href="#globalWrapper" id="globalWrapper-toggle" title="back to top">
+    </a>
+   </div>
+   <!-- end of the left (by default at least) column -->
+   <div class="visualClear">
+   </div>
+   <div class="mw-footer" id="footer" role="contentinfo">
+    <div class="footer-icons" id="f-poweredbyico">
+     <a href="https://www.mediawiki.org/">
+      <img alt="Powered by MediaWiki" height="31" loading="lazy" src="/resources/assets/poweredby_mediawiki_88x31.png" srcset="/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /resources/assets/poweredby_mediawiki_176x62.png 2x" width="88"/>
+     </a>
+    </div>
+    <ul id="f-list">
+     <li id="lastmod">
+      This page was last edited on 20 January 2025, at 10:57.
+     </li>
+     <li id="privacy">
+      <a href="/wiki/Consumer_Action_Taskforce:Privacy_policy">
+       Privacy policy
+      </a>
+     </li>
+     <li id="about">
+      <a href="/wiki/Consumer_Action_Taskforce:About">
+       About Consumer Action Taskforce
+      </a>
+     </li>
+     <li id="disclaimers">
+      <a href="/wiki/Consumer_Action_Taskforce:General_disclaimer">
+       Disclaimers
+      </a>
+     </li>
+    </ul>
+   </div>
+  </div>
+  <script>
+   (RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":92,"wgPageParseReport":{"limitreport":{"cputime":"0.010","walltime":"0.031","ppvisitednodes":{"value":36,"limit":1000000},"postexpandincludesize":{"value":0,"limit":209715200},"templateargumentsize":{"value":0,"limit":209715200},"expansiondepth":{"value":2,"limit":100},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":1332,"limit":5000000},"timingprofile":["100.00%    0.000      1 -total"]},"cachereport":{"timestamp":"20250120124644","ttl":86400,"transientcontent":false}}});});
+  </script>
+ </body>
+</html>
