@@ -2,27 +2,23 @@
 A loop that calls the Gemini API and several tools.
 """
 
-import os
-from dotenv import load_dotenv 
 import json
+
 from onboarding_message import intro
 
-import google.generativeai as genai
-import anthropic
-
-from config import ORCHESTRATOR_PROMPT, PLAN_CRITIC_PROMPT, RESEARCHER_PROMPT, PARSER_PROMPT
+from config import ORCHESTRATOR_PROMPT, PLAN_CRITIC_PROMPT, RETRIEVER_PROMPT, RESEARCHER_PROMPT, PARSER_PROMPT
 from assistant import Assistant
-from tools.browser import scrape_static_source, scrape_dynamic_source
+from tools.retriever import get_tasks
+from tools.researcher import scrape_static_source, scrape_dynamic_source
 from tools.parser import parse_text
-from utils import extract_xml
 
-import inquirer
+from db import SimpleVectorDB
 
-load_dotenv()
-gemini_api_key=os.getenv("GOOGLE_GEMINI_API_KEY")
-anthropic_api_key=os.getenv("ANTHROPIC_API_KEY")
+from utils import save_task, extract_xml
 
 # Main loop
+
+db = SimpleVectorDB()
 
 async def loop():
   """
@@ -35,7 +31,10 @@ async def loop():
     tools=[])
   plan_critic = Assistant(
     role_prompt=PLAN_CRITIC_PROMPT,
-    tools=[]
+    tools=[])
+  retriever = Assistant(
+    role_prompt= RETRIEVER_PROMPT,
+    tools=[get_tasks]
   )
   researcher = Assistant(
     role_prompt=RESEARCHER_PROMPT, 
@@ -52,14 +51,9 @@ async def loop():
       if user_message.lower() == "quit":
         print("Exiting chat.")
         break
-      # elif user_message.lower() == "restart":
-      #   Assistant.messages = []
-      #   continue
       elif user_message.lower() == "debug":
-        print("Chat History\n\nOrchestrator\n", orchestrator.print_messages(), "\n\nCritic\n", plan_critic.print_messages(), "\n\nResearcher\n", researcher.print_messages(), "\n\nParser\n", parser.print_messages())
-        break
-      elif user_message.lower() == "log":
-        print("Log\n\nOrchestrator\n", orchestrator.log, "\n\nCritic\n", plan_critic.log, "\n\nResearcher\n", researcher.log, "\n\nParser\n", parser.log)
+        print("Chat History\n\nOrchestrator\n", orchestrator.print_messages(), "\n\nCritic\n", plan_critic.print_messages(), "\n\nRetriever\n", retriever.print_messages(), "\n\nResearcher\n", researcher.print_messages(), "\n\nParser\n", parser.print_messages())
+        print("Log\n\nOrchestrator\n", orchestrator.log, "\n\nCritic\n", plan_critic.log, "\n\nRetriever\n", retriever.log, "\n\nResearcher\n", researcher.log, "\n\nParser\n", parser.log)
         break
       
       orchestrator_response = orchestrator.process_user_input(user_message, "user")
@@ -82,6 +76,9 @@ async def loop():
         plan = extract_xml(orchestrator_response, "plan")
         final_answer = extract_xml(orchestrator_response, "final_answer")
         if final_answer:
+          # Save task and result to "past_tasks" folder, embed them, and print the answer for the user
+          task_information = save_task(user_message, final_answer)
+          db.add_document(task_information)
           print(f"🤵🏻 Aura: Here's the answer to your request: \n\n{final_answer}")
           break
         elif plan:
@@ -95,7 +92,11 @@ async def loop():
           if step["status"].lower() in ["completed", "failed"]:
             continue
           elif step["status"].lower() == "to do":
-            if step["teammate"].lower() == "researcher":
+            if step["teammate"].lower() == "retriever":
+              retriever_response = retriever.process_user_input(step["step"], orchestrator)
+              orchestrator_response = orchestrator.process_user_input(retriever_response, "retriever")
+              break
+            elif step["teammate"].lower() == "researcher":
               researcher_response = researcher.process_user_input(step["step"], "orchestrator")
               orchestrator_response = orchestrator.process_user_input(researcher_response, "researcher")
               break

@@ -25,3 +25,15 @@ build/
 *.log
 *.tmp
 .DS_Store
+
+# Others
+vector_db.pkl
+# Include folders
+!past_tasks/
+!temp/
+# Ignore everything inside the folders
+past_tasks/*
+temp/working_memory.txt
+# Include the .gitkeep file
+!past_tasks/.gitkeep
+!temp/.gitkeep

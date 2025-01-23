@@ -1,591 +1,906 @@
 <!DOCTYPE html>
-<html class="client-nojs" dir="ltr" lang="en">
+<html lang="en">
  <head>
+  <!-- Global Metadata -->
   <meta charset="utf-8"/>
+  <meta content="width=device-width,initial-scale=1" name="viewport"/>
+  <link href="/favicon.svg" rel="icon" type="image/svg+xml"/>
+  <meta content="Astro v5.1.7" name="generator"/>
+  <link as="font" crossorigin="" href="/fonts/atkinson-regular.woff" rel="preload" type="font/woff"/>
+  <link as="font" crossorigin="" href="/fonts/atkinson-bold.woff" rel="preload" type="font/woff"/>
+  <link as="font" crossorigin="" href="/fonts/JetBrainsMono-Variable.ttf" rel="preload" type="font/ttf"/>
+  <link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+  <link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png"/>
+  <link href="/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png"/>
+  <link href="/site.webmanifest" rel="manifest"/>
+  <link color="#5bbad5" href="/safari-pinned-tab.svg" rel="mask-icon"/>
+  <meta content="#00aba9" name="msapplication-TileColor"/>
+  <meta content="#000000" name="theme-color"/>
+  <!-- Canonical URL -->
+  <link href="https://byran.ee/posts/creation/" rel="canonical"/>
+  <!-- Primary Meta Tags -->
   <title>
-   Reverse Engineering Bambu Connect - Consumer Action Taskforce
+   Creation | anyon_e
   </title>
+  <meta content="Creation | anyon_e" name="title"/>
+  <meta content="Creating a highly-integrated open-source laptop from scratch. Power in your hands." name="description"/>
+  <!-- Open Graph / Facebook -->
+  <meta content="website" property="og:type"/>
+  <meta content="https://byran.ee/posts/creation/" property="og:url"/>
+  <meta content="Creation | anyon_e" property="og:title"/>
+  <meta content="Creating a highly-integrated open-source laptop from scratch. Power in your hands." property="og:description"/>
+  <meta content="https://byran.ee/open-graph.jpg" property="og:image"/>
+  <!-- Twitter -->
+  <meta content="summary_large_image" property="twitter:card"/>
+  <meta content="https://byran.ee/posts/creation/" property="twitter:url"/>
+  <meta content="Creation | anyon_e" property="twitter:title"/>
+  <meta content="Creating a highly-integrated open-source laptop from scratch. Power in your hands." property="twitter:description"/>
+  <meta content="https://byran.ee/open-graph.jpg" property="twitter:image"/>
+  <!-- Sitemap -->
+  <link href="/sitemap-index.xml" rel="sitemap"/>
+  <!-- RSS Feed -->
+  <link href="https://byran.ee/rss.xml" rel="alternate" title="Creation | anyon_e" type="application/rss+xml"/>
+  <!-- Global Scripts -->
+  <script src="/js/theme.js">
+  </script>
+  <script src="/js/scroll.js">
+  </script>
+  <script src="/js/animate.js">
+  </script>
+  <!-- <ViewTransitions  /> -->
+  <script type="module">
+   document.addEventListener("astro:before-swap",e=>[...e.newDocument.head.querySelectorAll('link[as="font"]')].forEach(o=>o.remove()));
+  </script>
+  <link href="/_astro/index.ClR2grNz.css" rel="stylesheet"/>
   <script>
-   document.documentElement.className="client-js";RLCONF={"wgBreakFrames":false,"wgSeparatorTransformTable":["",""],"wgDigitTransformTable":["",""],"wgDefaultDateFormat":"dmy","wgMonthNames":["","January","February","March","April","May","June","July","August","September","October","November","December"],"wgRequestId":"f8f67692587d99dd1edb16aa","wgCanonicalNamespace":"","wgCanonicalSpecialPageName":false,"wgNamespaceNumber":0,"wgPageName":"Reverse_Engineering_Bambu_Connect","wgTitle":"Reverse Engineering Bambu Connect","wgCurRevisionId":3424,"wgRevisionId":3424,"wgArticleId":686,"wgIsArticle":true,"wgIsRedirect":false,"wgAction":"view","wgUserName":null,"wgUserGroups":["*"],"wgCategories":["Bambu Lab"],"wgPageViewLanguage":"en","wgPageContentLanguage":"en","wgPageContentModel":"wikitext","wgRelevantPageName":"Reverse_Engineering_Bambu_Connect","wgRelevantArticleId":686,"wgIsProbablyEditable":true,"wgRelevantPageIsProbablyEditable":true,"wgRestrictionEdit":[],"wgRestrictionMove":[],
-"wgVisualEditor":{"pageLanguageCode":"en","pageLanguageDir":"ltr","pageVariantFallbacks":"en"},"wgEditSubmitButtonLabelPublish":false};RLSTATE={"site.styles":"ready","user.styles":"ready","user":"ready","user.options":"loading","ext.cite.styles":"ready","skins.monobook.styles":"ready","ext.visualEditor.desktopArticleTarget.noscript":"ready"};RLPAGEMODULES=["ext.cite.ux-enhancements","site","mediawiki.page.ready","skins.monobook.scripts","ext.visualEditor.desktopArticleTarget.init","ext.visualEditor.targetLoader"];
+   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+		var script = document.createElement('script');
+		script.defer = true;
+		script.src = '/_vercel/insights/script.js';
+		var head = document.querySelector('head');
+		head.appendChild(script);
   </script>
-  <script>
-   (RLQ=window.RLQ||[]).push(function(){mw.loader.impl(function(){return["user.options@12s5i",function($,jQuery,require,module){mw.user.tokens.set({"patrolToken":"+\\","watchToken":"+\\","csrfToken":"+\\"});
-}];});});
-  </script>
-  <link href="/load.php?lang=en&amp;modules=ext.cite.styles%7Cext.visualEditor.desktopArticleTarget.noscript%7Cskins.monobook.styles&amp;only=styles&amp;skin=monobook" rel="stylesheet"/>
-  <script async="" src="/load.php?lang=en&amp;modules=startup&amp;only=scripts&amp;raw=1&amp;skin=monobook">
-  </script>
-  <meta content="" name="ResourceLoaderDynamicStyles"/>
-  <link href="/load.php?lang=en&amp;modules=site.styles&amp;only=styles&amp;skin=monobook" rel="stylesheet"/>
-  <meta content="MediaWiki 1.42.4" name="generator"/>
-  <meta content="max-image-preview:standard" name="robots"/>
-  <meta content="telephone=no" name="format-detection"/>
-  <meta content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=0.25, maximum-scale=5.0" name="viewport"/>
-  <link href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=edit" rel="alternate" title="Edit" type="application/x-wiki"/>
-  <link href="/favicon.ico" rel="icon"/>
-  <link href="/opensearch_desc.php" rel="search" title="Consumer Action Taskforce (en)" type="application/opensearchdescription+xml"/>
-  <link href="https://wiki.rossmanngroup.com/api.php?action=rsd" rel="EditURI" type="application/rsd+xml"/>
-  <link href="/index.php?title=Special:RecentChanges&amp;feed=atom" rel="alternate" title="Consumer Action Taskforce Atom feed" type="application/atom+xml"/>
  </head>
- <body class="mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject mw-editable page-Reverse_Engineering_Bambu_Connect rootpage-Reverse_Engineering_Bambu_Connect skin-monobook action-view skin--responsive">
-  <div id="globalWrapper">
-   <div id="column-content">
-    <div class="mw-body" id="content" role="main">
-     <a id="top">
-     </a>
-     <div id="siteNotice">
-      <div data-nosnippet="" id="localNotice">
-       <div class="sitenotice" dir="ltr" lang="en">
-        <p>
-         Please note that all submissions to the site are subject to the wiki's licence, CC 4.0 BY-SA, as found
-         <a href="/wiki/Consumer_Action_Taskforce:Copyrights" title="Consumer Action Taskforce:Copyrights">
-          here
-         </a>
-        </p>
+ <body>
+  <header class="fixed top-0 w-full h-16 z-50" data-astro-cid-3ef6ksr2="" id="header">
+   <div class="w-full h-full mx-auto px-5 max-w-screen-md">
+    <div class="relative h-full w-full" data-astro-cid-3ef6ksr2="">
+     <div class="absolute left-0 top-1/2 -translate-y-1/2 flex gap-1 font-semibold" data-astro-cid-3ef6ksr2="">
+      <a class="flex gap-1 text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out" data-astro-cid-3ef6ksr2="" href="/">
+       <svg class="size-6 fill-current" data-astro-cid-3ef6ksr2="">
+        <use data-astro-cid-3ef6ksr2="" href="/brand.svg#brand">
+        </use>
+       </svg>
+       <div class="font-hype text-neutral-600 hover:text-black dark:text-neutral-300 dark:hover:text-white duration-300 ease-in-out" data-astro-cid-3ef6ksr2="">
+        anyon_e
        </div>
-      </div>
-     </div>
-     <div class="mw-indicators">
-     </div>
-     <h1 class="firstHeading mw-first-heading" id="firstHeading">
-      <span class="mw-page-title-main">
-       Reverse Engineering Bambu Connect
-      </span>
-     </h1>
-     <div class="monobook-body" id="bodyContent">
-      <div id="siteSub">
-       From Consumer Action Taskforce
-      </div>
-      <div id="contentSub">
-       <div id="mw-content-subtitle">
-       </div>
-      </div>
-      <div id="jump-to-nav">
-      </div>
-      <a class="mw-jump-link" href="#column-one">
-       Jump to navigation
       </a>
-      <a class="mw-jump-link" href="#searchInput">
-       Jump to search
-      </a>
-      <!-- start content -->
-      <div class="mw-body-content" id="mw-content-text">
-       <div class="mw-content-ltr mw-parser-output" dir="ltr" lang="en">
-        <div style="padding-left:1.6rem;margin-bottom:0.5rem;">
-         <i>
-          This is part of the
-          <a href="/wiki/Bambu_Lab_Authorization_Control_System" title="Bambu Lab Authorization Control System">
-           Bambu Lab Authorization Control System
-          </a>
-          article.
-         </i>
-        </div>
-        <p>
-         Bambu Connect is an
-         <a class="mw-redirect" href="/wiki/Help:Electron" title="Help:Electron">
-          Electron
-         </a>
-         App with Security through Obscurity principles, hence it is inherently insecure.
-        </p>
-        <p>
-         To read the main.js for further analysis or extracting the private key stored by Bambu in the app:
-        </p>
-        <ol>
-         <li>
-          Use the MacOs .dmg file, not the exe. Finding the needed decryption code is easier in the .dmg
-         </li>
-         <li>
-          Extract
-          <i>
-           bambu-connect-beta-darwin-arm64-v1.0.4_4bb9cf0.dmg
-          </i>
-          <sup class="reference" id="cite_ref-1">
-           <a href="#cite_note-1">
-            [1]
-           </a>
-          </sup>
-          , in there you can find the files of the underlying Electron app in
-          <i>
-           Bambu Connect (Beta).app/Contents/Resources
-          </i>
-          folder
-         </li>
-         <li>
-          The app uses asarmor to prevent easy reading, the key is stored in ./app.asar.unpacked/.vite/build/main.node and can be extracted. Unpacking app.asar without fixing it first will result in an encrypted main.js file and 100 GB of decoy files generated, don't try it.
-         </li>
-         <li>
-          Load main.node in Ghidra and Auto-Analyze it. Then search for the GetKey function, or press G and go to 0000b67e
-          <sup class="reference" id="cite_ref-2">
-           <a href="#cite_note-2">
-            [2]
-           </a>
-          </sup>
-         </li>
-         <li>
-          Write down the hex key, for this build it's B0AE6995063C191D2B404637FBC193AE10DAB86A6BC1B1DE67B5AEE6E03018A2
-         </li>
-         <li>
-          Install the npm package asarfix and use it to fix the archive:
-          <code>
-           npx asarfix app.asar -k B0AE6995063C191D2B404637FBC193AE10DAB86A6BC1B1DE67B5AEE6E03018A2 -o fixed.asar
-          </code>
-         </li>
-         <li>
-          Now you can extract it in cleartext with
-          <code>
-           npx asar extract fixed.asar src
-          </code>
-         </li>
-         <li>
-          ./src/.vite/build/main.js is minified, use any JavaScript beautifier to make it better readable. Interesting user code including the private key is at the end of the file.
-         </li>
-        </ol>
-        <h3>
-         <span class="mw-headline" id="Extracting_certs_and_private_key">
-          Extracting certs and private key
-         </span>
-         <span class="mw-editsection">
-          <span class="mw-editsection-bracket">
-           [
-          </span>
-          <a class="mw-editsection-visualeditor" href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;veaction=edit&amp;section=1" title="Edit section: Extracting certs and private key">
-           edit
-          </a>
-          <span class="mw-editsection-divider">
-           |
-          </span>
-          <a href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=edit&amp;section=1" title="Edit section's source code: Extracting certs and private key">
-           edit source
-          </a>
-          <span class="mw-editsection-bracket">
-           ]
-          </span>
-         </span>
-        </h3>
-        <p>
-         The private key and certs are further obfuscated, to get cleartext you need to do: Encrypted string from cy() -&gt; ure(string, key) -&gt; RC4 decryption -&gt;  decodeURIComponent() -&gt; final string.
-        </p>
-        <p>
-         Example Python reimplementation to extract the secrets, easy to run. Copy the content of t from function cy() in main.js and paste it here. After running, you have a private key from Bambu Lab.
-        </p>
-        <pre>import urllib.parse
-
-def cy():
-    t = [
-		# copy from main.js
-	]
-    return t
-
-def ure(t, e):
-    # RC4 implementation
-    r = list(range(256))
-    n = 0
-    s = ""
-    
-    # Key-scheduling algorithm (KSA)
-    for o in range(256):
-        n = (n + r[o] + ord(e[o % len(e)])) % 256
-        r[o], r[n] = r[n], r[o]
-    
-    # Pseudo-random generation algorithm (PRGA)
-    o = n = 0
-    for byte in t:
-        o = (o + 1) % 256
-        n = (n + r[o]) % 256
-        r[o], r[n] = r[n], r[o]
-        k = r[(r[o] + r[n]) % 256]
-        s += chr(byte ^ k)
-    
-    return s
-
-def lt(t, e):
-    r = cy()
-    n = t - 106
-    s = r[n]
-    s = ure(s, e)
-    return urllib.parse.unquote(s)
-
-def extract_certs_and_key():
-    try:
-        result = {}
-        result["Are"] = lt(106, "1o9B")
-        result["fre"] = lt(107, "FT2A")
-        result["private_key"] = lt(108, "Tlj0")
-        result["cert"] = lt(109, "NPub")
-        result["crl"] = lt(110, "x077")
-    except Exception as e:
-        print(f"Error extracting certs/key: {e}")
-
-    for key, value in result.items():
-        print(f"{key}:\n{value}\n")
-
-if __name__ == "__main__":
-    extract_certs_and_key()
-</pre>
-        <div class="mw-references-wrap">
-         <ol class="references">
-          <li id="cite_note-1">
-           <span class="mw-cite-backlink">
-            <a href="#cite_ref-1">
-             ↑
-            </a>
-           </span>
-           <span class="reference-text">
-            <a class="external free" href="https://public-cdn.bblmw.com/upgrade/bambu-connect/bambu-connect-beta-darwin-arm64-v1.0.4_4bb9cf0.dmg" rel="nofollow">
-             https://public-cdn.bblmw.com/upgrade/bambu-connect/bambu-connect-beta-darwin-arm64-v1.0.4_4bb9cf0.dmg
-            </a>
-           </span>
-          </li>
-          <li id="cite_note-2">
-           <span class="mw-cite-backlink">
-            <a href="#cite_ref-2">
-             ↑
-            </a>
-           </span>
-           <span class="reference-text">
-            <a class="external free" href="https://www.reddit.com/r/OrcaSlicer/comments/1i2t6l8/comment/m7tuf2i/" rel="nofollow">
-             https://www.reddit.com/r/OrcaSlicer/comments/1i2t6l8/comment/m7tuf2i/
-            </a>
-           </span>
-          </li>
-         </ol>
-        </div>
-        <!-- 
-NewPP limit report
-Cached time: 20250120124644
-Cache expiry: 86400
-Reduced expiry: false
-Complications: []
-CPU time usage: 0.010 seconds
-Real time usage: 0.031 seconds
-Preprocessor visited node count: 36/1000000
-Post‐expand include size: 0/209715200 bytes
-Template argument size: 0/209715200 bytes
-Highest expansion depth: 2/100
-Expensive parser function count: 0/100
-Unstrip recursion depth: 0/20
-Unstrip post‐expand size: 1332/5000000 bytes
--->
-        <!--
-Transclusion expansion time report (%,ms,calls,template)
-100.00%    0.000      1 -total
--->
-        <!-- Saved in parser cache with key mediawiki:pcache:idhash:686-0!canonical and timestamp 20250120124644 and revision id 3424. Rendering was triggered because: page-view
- -->
-       </div>
-       <div class="printfooter" data-nosnippet="">
-        Retrieved from "
-        <a dir="ltr" href="https://wiki.rossmanngroup.com/index.php?title=Reverse_Engineering_Bambu_Connect&amp;oldid=3424">
-         https://wiki.rossmanngroup.com/index.php?title=Reverse_Engineering_Bambu_Connect&amp;oldid=3424
-        </a>
-        "
-       </div>
-      </div>
-      <div class="catlinks" data-mw="interface" id="catlinks">
-       <div class="mw-normal-catlinks" id="mw-normal-catlinks">
-        <a href="/wiki/Special:Categories" title="Special:Categories">
-         Category
-        </a>
-        :
-        <ul>
-         <li>
-          <a href="/wiki/Category:Bambu_Lab" title="Category:Bambu Lab">
-           Bambu Lab
-          </a>
-         </li>
-        </ul>
-       </div>
-      </div>
-      <!-- end content -->
-      <div class="visualClear">
-      </div>
      </div>
-    </div>
-    <div class="visualClear">
+     <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" data-astro-cid-3ef6ksr2="">
+      <nav class="hidden md:flex items-center justify-center text-sm gap-1" data-astro-cid-3ef6ksr2="">
+       <a class="h-8 rounded-full px-3 text-current flex items-center justify-center transition-colors duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white" data-astro-cid-3ef6ksr2="" href="/" target="_blank">
+        Home
+       </a>
+       <a class="h-8 rounded-full px-3 text-current flex items-center justify-center transition-colors duration-300 ease-in-out hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white" data-astro-cid-3ef6ksr2="" href="/progress" target="_blank">
+        Progress
+       </a>
+       <a class="h-8 rounded-full px-3 flex items-center justify-center transition-colors duration-300 ease-in-out bg-black dark:bg-white text-white dark:text-black" data-astro-cid-3ef6ksr2="" href="/posts" target="_blank">
+        Posts
+       </a>
+      </nav>
+     </div>
+     <div class="buttons absolute right-0 top-1/2 -translate-y-1/2 flex gap-1" data-astro-cid-3ef6ksr2="">
+      <a aria-label="GitHub Source" class="hidden md:flex size-9 rounded-xl p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out" data-astro-cid-3ef6ksr2="" href="https://github.com/Hello9999901/laptop" target="_blank">
+       <svg class="size-full fill-current" data-astro-cid-3ef6ksr2="">
+        <use data-astro-cid-3ef6ksr2="" href="/social.svg#github">
+        </use>
+       </svg>
+      </a>
+      <button aria-label="Toggle light and dark theme" class="hidden md:flex size-9 rounded-xl p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out" data-astro-cid-3ef6ksr2="" id="header-theme-button">
+       <svg class="size-full block dark:hidden" data-astro-cid-3ef6ksr2="">
+        <use data-astro-cid-3ef6ksr2="" href="/ui.svg#sun">
+        </use>
+       </svg>
+       <svg class="size-full hidden dark:block" data-astro-cid-3ef6ksr2="">
+        <use data-astro-cid-3ef6ksr2="" href="/ui.svg#moon">
+        </use>
+       </svg>
+      </button>
+      <button aria-label="Toggle drawer open and closed" class="flex md:hidden size-9 rounded-xl p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out" data-astro-cid-3ef6ksr2="" id="header-drawer-button">
+       <svg class="size-full" data-astro-cid-3ef6ksr2="" id="drawer-open">
+        <use data-astro-cid-3ef6ksr2="" href="/ui.svg#menu">
+        </use>
+       </svg>
+       <svg class="size-full" data-astro-cid-3ef6ksr2="" id="drawer-close">
+        <use data-astro-cid-3ef6ksr2="" href="/ui.svg#x">
+        </use>
+       </svg>
+      </button>
+     </div>
     </div>
    </div>
-   <div id="column-one">
-    <h2>
-     Navigation menu
-    </h2>
-    <div aria-labelledby="p-cactions-label" class="portlet" id="p-cactions" role="navigation">
-     <h3 id="p-cactions-label">
-      Page actions
-     </h3>
-     <div class="pBody">
-      <ul>
-       <li class="selected mw-list-item" id="ca-nstab-main">
-        <a accesskey="c" href="/wiki/Reverse_Engineering_Bambu_Connect" title="View the content page [c]">
-         Page
-        </a>
-       </li>
-       <li class="mw-list-item" id="ca-talk">
-        <a accesskey="t" href="/wiki/Talk:Reverse_Engineering_Bambu_Connect" rel="discussion" title="Discussion about the content page [t]">
-         Discussion
-        </a>
-       </li>
-       <li class="selected mw-list-item" id="ca-view">
-        <a href="/wiki/Reverse_Engineering_Bambu_Connect">
-         Read
-        </a>
-       </li>
-       <li class="mw-list-item" id="ca-ve-edit">
-        <a accesskey="v" href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;veaction=edit" title="Edit this page [v]">
-         Edit
-        </a>
-       </li>
-       <li class="collapsible mw-list-item" id="ca-edit">
-        <a accesskey="e" href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=edit" title="Edit the source code of this page [e]">
-         Edit source
-        </a>
-       </li>
-       <li class="mw-list-item" id="ca-history">
-        <a accesskey="h" href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=history" title="Past revisions of this page [h]">
-         History
-        </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div aria-labelledby="p-cactions-mobile-label" class="portlet mw-portlet mw-portlet-cactions-mobile" id="p-cactions-mobile" role="navigation">
-     <h3 id="p-cactions-mobile-label">
-      Page actions
-     </h3>
-     <div class="pBody">
-      <ul>
-       <li class="selected mw-list-item" id="main-mobile">
-        <a href="/wiki/Reverse_Engineering_Bambu_Connect" title="Page">
-         Page
-        </a>
-       </li>
-       <li class="mw-list-item" id="talk-mobile">
-        <a href="/wiki/Talk:Reverse_Engineering_Bambu_Connect" title="Discussion">
-         Discussion
-        </a>
-       </li>
-       <li class="mw-list-item" id="ca-more">
-        <a href="#p-cactions">
-         More
-        </a>
-       </li>
-       <li class="mw-list-item" id="ca-tools">
-        <a href="#p-tb" title="Tools">
-         Tools
-        </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div aria-labelledby="p-personal-label" class="portlet" id="p-personal" role="navigation">
-     <h3 id="p-personal-label">
-      Personal tools
-     </h3>
-     <div class="pBody">
-      <ul>
-       <li class="mw-list-item" id="pt-anonuserpage">
-        Not logged in
-       </li>
-       <li class="mw-list-item" id="pt-anontalk">
-        <a accesskey="n" href="/wiki/Special:MyTalk" title="Discussion about edits from this IP address [n]">
-         Talk
-        </a>
-       </li>
-       <li class="mw-list-item" id="pt-anoncontribs">
-        <a accesskey="y" href="/wiki/Special:MyContributions" title="A list of edits made from this IP address [y]">
-         Contributions
-        </a>
-       </li>
-       <li class="mw-list-item" id="pt-createaccount">
-        <a href="/index.php?title=Special:CreateAccount&amp;returnto=Reverse+Engineering+Bambu+Connect" title="You are encouraged to create an account and log in; however, it is not mandatory">
-         Create account
-        </a>
-       </li>
-       <li class="mw-list-item" id="pt-login">
-        <a accesskey="o" href="/index.php?title=Special:UserLogin&amp;returnto=Reverse+Engineering+Bambu+Connect" title="You are encouraged to log in; however, it is not mandatory [o]">
-         Log in
-        </a>
-       </li>
-      </ul>
-     </div>
-    </div>
-    <div class="portlet" id="p-logo" role="banner">
-     <a class="mw-wiki-logo" href="/wiki/Mission_statement">
-     </a>
-    </div>
-    <div id="sidebar">
-     <div aria-labelledby="p-navigation-label" class="portlet mw-portlet mw-portlet-navigation" id="p-navigation" role="navigation">
-      <h3 id="p-navigation-label">
-       Navigation
-      </h3>
-      <div class="pBody">
-       <ul>
-        <li class="mw-list-item" id="n-Top-Contributors">
-         <a href="/wiki/Special:ContributionScores" title="Members of the wiki with the most edits">
-          Top Contributors
-         </a>
-        </li>
-        <li class="mw-list-item" id="n-recentchanges">
-         <a accesskey="r" href="/wiki/Special:RecentChanges" title="A list of recent changes in the wiki [r]">
-          Recent changes
-         </a>
-        </li>
-        <li class="mw-list-item" id="n-randompage">
-         <a accesskey="x" href="/wiki/Special:Random" title="Load a random page [x]">
-          Random page
-         </a>
-        </li>
-        <li class="mw-list-item" id="n-All-pages">
-         <a href="/wiki/Special:AllPages" title="A filterable list of all pages">
-          All pages
-         </a>
-        </li>
-        <li class="mw-list-item" id="n-mainpage-description">
-         <a accesskey="z" href="/wiki/Mission_statement" title="Visit the main page [z]">
-          Main page
-         </a>
-        </li>
-        <li class="mw-list-item" id="n-Categories">
-         <a href="/wiki/Category:Wiki_root" title="Articles sorted by category">
-          Categories
-         </a>
-        </li>
-       </ul>
-      </div>
-     </div>
-     <div class="portlet" id="p-search" role="search">
-      <h3 id="p-search-label">
-       <label for="searchInput">
-        Search
-       </label>
-      </h3>
-      <div class="pBody" id="searchBody">
-       <form action="/index.php" id="searchform">
-        <input name="title" type="hidden" value="Special:Search"/>
-        <input accesskey="f" aria-label="Search Consumer Action Taskforce" autocapitalize="sentences" id="searchInput" name="search" placeholder="Search Consumer Action Taskforce" title="Search Consumer Action Taskforce [f]" type="search"/>
-        <input class="searchButton" id="searchButton" name="go" title="Go to a page with this exact name if it exists" type="submit" value="Go"/>
-        <input class="searchButton mw-fallbackSearchButton" id="mw-searchButton" name="fulltext" title="Search the pages for this text" type="submit" value="Search"/>
-       </form>
-      </div>
-     </div>
-     <div aria-labelledby="p-contribute-label" class="portlet mw-portlet mw-portlet-contribute" id="p-contribute" role="navigation">
-      <h3 id="p-contribute-label">
-       Contribute
-      </h3>
-      <div class="pBody">
-       <ul>
-        <li class="mw-list-item" id="n-How-to-help">
-         <a href="/wiki/How_to_help" title="A getting started guide">
-          How to help
-         </a>
-        </li>
-        <li class="mw-list-item" id="n-Adapt-videos-to-articles">
-         <a href="/wiki/Louis_Rossmann_-_Video_Directory" title="Videos on consumer rights to be turned into articles">
-          Adapt videos to articles
-         </a>
-        </li>
-        <li class="mw-list-item" id="n-Articles-in-need-of-work">
-         <a href="/wiki/Category:Articles_in_need_of_additional_work" title="Articles that require expansion,verification or adjustment">
-          Articles in need of work
-         </a>
-        </li>
-       </ul>
-      </div>
-     </div>
-     <div aria-labelledby="p-help-label" class="portlet mw-portlet mw-portlet-help" id="p-help" role="navigation">
-      <h3 id="p-help-label">
-       Help
-      </h3>
-      <div class="pBody">
-       <ul>
-        <li class="mw-list-item" id="n-help-mediawiki">
-         <a href="https://www.mediawiki.org/wiki/Special:MyLanguage/Help:Contents">
-          Help about MediaWiki
-         </a>
-        </li>
-       </ul>
-      </div>
-     </div>
-     <div aria-labelledby="p-tb-label" class="portlet mw-portlet mw-portlet-tb" id="p-tb" role="navigation">
-      <h3 id="p-tb-label">
-       Tools
-      </h3>
-      <div class="pBody">
-       <ul>
-        <li class="mw-list-item" id="t-whatlinkshere">
-         <a accesskey="j" href="/wiki/Special:WhatLinksHere/Reverse_Engineering_Bambu_Connect" title="A list of all wiki pages that link here [j]">
-          What links here
-         </a>
-        </li>
-        <li class="mw-list-item" id="t-recentchangeslinked">
-         <a accesskey="k" href="/wiki/Special:RecentChangesLinked/Reverse_Engineering_Bambu_Connect" rel="nofollow" title="Recent changes in pages linked from this page [k]">
-          Related changes
-         </a>
-        </li>
-        <li class="mw-list-item" id="t-specialpages">
-         <a accesskey="q" href="/wiki/Special:SpecialPages" title="A list of all special pages [q]">
-          Special pages
-         </a>
-        </li>
-        <li class="mw-list-item" id="t-print">
-         <a accesskey="p" href="javascript:print();" rel="alternate" title="Printable version of this page [p]">
-          Printable version
-         </a>
-        </li>
-        <li class="mw-list-item" id="t-permalink">
-         <a href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;oldid=3424" title="Permanent link to this revision of this page">
-          Permanent link
-         </a>
-        </li>
-        <li class="mw-list-item" id="t-info">
-         <a href="/index.php?title=Reverse_Engineering_Bambu_Connect&amp;action=info" title="More information about this page">
-          Page information
-         </a>
-        </li>
-       </ul>
-      </div>
-     </div>
-    </div>
-    <a class="menu-toggle" href="#sidebar" id="sidebar-toggle" title="Jump to navigation">
+  </header>
+  <script>
+   function toggleDrawer() {
+    const drawer = document.getElementById("drawer")
+    const drawerButton = document.getElementById("header-drawer-button")
+    drawer?.classList.toggle("open")
+    drawerButton?.classList.toggle("open")
+  }
+
+  function initializeDrawerButton() {
+    const drawerButton = document.getElementById("header-drawer-button")
+    drawerButton?.addEventListener("click", toggleDrawer)
+  }
+
+  document.addEventListener("astro:after-swap", initializeDrawerButton)
+  initializeDrawerButton()
+  </script>
+  <div class="fixed inset-0 h-0 z-40 overflow-hidden flex flex-col items-center justify-center md:hidden bg-neutral-100 dark:bg-neutral-900 transition-[height] duration-300 ease-in-out" data-astro-cid-hxtyo74s="" id="drawer">
+   <nav class="flex flex-col items-center space-y-2" data-astro-cid-hxtyo74s="">
+    <a class="flex items-center justify-center px-3 py-1 rounded-full text-current hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/20 transition-colors duration-300 ease-in-out" data-astro-cid-hxtyo74s="" href="/">
+     Home
     </a>
-    <a class="menu-toggle" href="#p-personal" id="p-personal-toggle" title="user tools">
+    <a class="flex items-center justify-center px-3 py-1 rounded-full text-current hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/20 transition-colors duration-300 ease-in-out" data-astro-cid-hxtyo74s="" href="/progress">
+     Progress
     </a>
-    <a class="menu-toggle" href="#globalWrapper" id="globalWrapper-toggle" title="back to top">
+    <a class="flex items-center justify-center px-3 py-1 rounded-full hover:text-black dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/20 transition-colors duration-300 ease-in-out pointer-events-none bg-black dark:bg-white text-white dark:text-black" data-astro-cid-hxtyo74s="" href="/posts">
+     Posts
     </a>
-   </div>
-   <!-- end of the left (by default at least) column -->
-   <div class="visualClear">
-   </div>
-   <div class="mw-footer" id="footer" role="contentinfo">
-    <div class="footer-icons" id="f-poweredbyico">
-     <a href="https://www.mediawiki.org/">
-      <img alt="Powered by MediaWiki" height="31" loading="lazy" src="/resources/assets/poweredby_mediawiki_88x31.png" srcset="/resources/assets/poweredby_mediawiki_132x47.png 1.5x, /resources/assets/poweredby_mediawiki_176x62.png 2x" width="88"/>
-     </a>
-    </div>
-    <ul id="f-list">
-     <li id="lastmod">
-      This page was last edited on 20 January 2025, at 10:57.
-     </li>
-     <li id="privacy">
-      <a href="/wiki/Consumer_Action_Taskforce:Privacy_policy">
-       Privacy policy
-      </a>
-     </li>
-     <li id="about">
-      <a href="/wiki/Consumer_Action_Taskforce:About">
-       About Consumer Action Taskforce
-      </a>
-     </li>
-     <li id="disclaimers">
-      <a href="/wiki/Consumer_Action_Taskforce:General_disclaimer">
-       Disclaimers
-      </a>
-     </li>
-    </ul>
+   </nav>
+   <div class="flex gap-1 mt-5" data-astro-cid-hxtyo74s="">
+    <a aria-label="GitHub Source" class="size-9 rounded-full p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out" data-astro-cid-hxtyo74s="" href="https://github.com/Hello9999901/laptop" target="_blank">
+     <svg class="size-full fill-current" data-astro-cid-hxtyo74s="">
+      <use data-astro-cid-hxtyo74s="" href="/social.svg#github">
+      </use>
+     </svg>
+    </a>
+    <button aria-label="Toggle light and dark theme" class="size-9 rounded-full p-2 items-center justify-center bg-transparent hover:bg-black/5 dark:hover:bg-white/20 stroke-current hover:stroke-black hover:dark:stroke-white border border-black/10 dark:border-white/25 transition-colors duration-300 ease-in-out" data-astro-cid-hxtyo74s="" id="drawer-theme-button">
+     <svg class="block dark:hidden size-full" data-astro-cid-hxtyo74s="">
+      <use data-astro-cid-hxtyo74s="" href="/ui.svg#sun">
+      </use>
+     </svg>
+     <svg class="hidden dark:block size-full" data-astro-cid-hxtyo74s="">
+      <use data-astro-cid-hxtyo74s="" href="/ui.svg#moon">
+      </use>
+     </svg>
+    </button>
    </div>
   </div>
+  <main>
+   <div class="pt-36 pb-5">
+    <div class="w-full h-full mx-auto px-5 max-w-screen-md">
+     <div class="animate">
+      <div>
+       <a class="group w-fit p-1.5 gap-1.5 text-sm flex items-center border rounded hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out" href="/posts">
+        <svg class="stroke-current group-hover:stroke-black group-hover:dark:stroke-white" fill="none" height="20" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+         <line class="scale-x-0 group-hover:scale-x-100 translate-x-3 group-hover:translate-x-0 transition-all duration-300 ease-in-out" x1="19" x2="5" y1="12" y2="12">
+         </line>
+         <polyline class="translate-x-1 group-hover:translate-x-0 transition-all duration-300 ease-in-out" points="12 19 5 12 12 5">
+         </polyline>
+        </svg>
+        <div class="w-full group-hover:text-black group-hover:dark:text-white transition-colors duration-300 ease-in-out">
+         Back to posts
+        </div>
+       </a>
+       <div class="flex flex-wrap text-sm uppercase mt-12 gap-3 opacity-75">
+        <div class="flex items-center gap-2">
+         <svg class="size-5 stroke-current">
+          <use href="/ui.svg#calendar">
+          </use>
+         </svg>
+         Jan 22, 2025
+        </div>
+        <div class="flex items-center gap-2">
+         <svg class="size-5 stroke-current">
+          <use href="/ui.svg#book-open">
+          </use>
+         </svg>
+         11 min read
+        </div>
+       </div>
+       <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">
+        Creation
+       </h1>
+       <div class="mt-1">
+        Creating a highly-integrated open-source laptop from scratch. Power in your hands.
+       </div>
+       <div class="mt-4 flex flex-wrap gap-2">
+        <a class="group flex gap-2 items-center px-3 py-1.5 truncate rounded text-xs md:text-sm lg:text-base border border-black/25 dark:border-white/25 hover:bg-black/5 hover:dark:bg-white/15 blend" href="https://cad.onshape.com/documents/a18bb6df7dbba66df24a7ec8/w/967d921e60c207e3b6f5cf7b/e/1f78a9387b17c2d178742295?renderMode=0&amp;uiState=678da20d5bee0d1ad2dd55f1" target="_blank">
+         <svg class="size-4">
+          <use class="fill-current group-hover:fill-black group-hover:dark:fill-white blend" href="/ui.svg#globe">
+          </use>
+         </svg>
+         <span class="text-current group-hover:text-black group-hover:dark:text-white blend">
+          OnShape CAD Link
+         </span>
+        </a>
+        <a class="group flex gap-2 items-center px-3 py-1.5 truncate rounded text-xs md:text-sm lg:text-base border border-black/25 dark:border-white/25 hover:bg-black/5 hover:dark:bg-white/15 blend" href="https://github.com/Hello9999901/laptop" target="_blank">
+         <svg class="size-4">
+          <use class="fill-current group-hover:fill-black group-hover:dark:fill-white blend" href="/ui.svg#link">
+          </use>
+         </svg>
+         <span class="text-current group-hover:text-black group-hover:dark:text-white blend">
+          GitHub Repository
+         </span>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="flex-1 py-5">
+    <div class="w-full h-full mx-auto px-5 max-w-screen-md">
+     <div class="animate">
+      <div>
+       <article>
+        <script src="/kicanvas.js" type="module">
+        </script>
+        <blockquote>
+         <p>
+          I do not think there is any thrill that can go through the human heart like that felt by the inventor as he sees some creation of the brain unfolding to success
+–
+          <a href="https://en.wikipedia.org/wiki/Nikola_Tesla" target="_blank">
+           Nikola Tesla
+          </a>
+         </p>
+        </blockquote>
+        <p>
+         <strong>
+          It’s got a 4K AMOLED display, a Cherry MX mechanical keyboard, plays Minecraft at 4K, runs +7B LLMs, surfs the web, and has ~7h battery life. All open-source.
+         </strong>
+        </p>
+        <h2 id="video">
+         Video
+        </h2>
+        <div class="hover:cursor-pointer">
+         <a href="https://youtu.be/fks3PBodyiE" target="_blank">
+          <img src="/img/thumbnail.jpg"/>
+         </a>
+        </div>
+        <p>
+         <em>
+          How I Made A Laptop From Scratch (YouTube.com). Demo at 22:14.
+         </em>
+        </p>
+        <p>
+         <strong>
+          The writeup below pretty much abridges the video above.
+         </strong>
+        </p>
+        <p>
+         <em>
+          <a href="/progress">
+           See the progression updates from the development journey here.
+          </a>
+         </em>
+        </p>
+        <p>
+         Imagine a skill-chart of qualities of technology: screen, audio, performance, build, tactility, touch-interaction, efficiency, size, and so many more. At the balancing point of all these qualities is the laptop. To that end, let’s build a laptop that hits as many qualities of a modern commercial thin &amp; light laptop—while trying to do as much from scratch as possible.
+        </p>
+        <img src="/img/photo.jpg"/>
+        <p>
+         <em>
+          Booting and inserting magnetically attached keyboard
+         </em>
+        </p>
+        <img src="/img/minecraft.jpg"/>
+        <p>
+         <em>
+          Epic Hypixel Bedwars gaming
+         </em>
+        </p>
+        <h2 id="finding-an-electron-in-a-cloud">
+         Finding an electron in a cloud
+        </h2>
+        <p>
+         I first made a mental map and transferred it into Obsidian:
+        </p>
+        <div class="invert dark:invert-0">
+         <img src="/img/map.png"/>
+        </div>
+        <p>
+         Boiling it down, it landed me with a lofty list of goals:
+        </p>
+        <ul>
+         <li>
+          <a href="https://www.rock-chips.com/uploads/pdf/2022.8.26/192/RK3588%20Brief%20Datasheet.pdf" target="_blank">
+           RK3588
+          </a>
+          SoC Motherboard
+          <ul>
+           <li>
+            <a href="https://wiki.friendlyelec.com/wiki/index.php/CM3588" target="_blank">
+             CM3588
+            </a>
+            -based
+           </li>
+           <li>
+            USB-C USB3.1 Gen 1
+           </li>
+           <li>
+            PCIe Wi-Fi/BT + SSD
+           </li>
+          </ul>
+         </li>
+         <li>
+          Powertrain
+          <ul>
+           <li>
+            <a href="https://www.espressif.com/sites/default/files/documentation/esp32-s3-mini-1_mini-1u_datasheet_en.pdf" target="_blank">
+             ESP32-S3
+            </a>
+            embedded controller
+           </li>
+           <li>
+            ~60Wh Li-ion battery pack
+           </li>
+          </ul>
+         </li>
+         <li>
+          Peripherals
+          <ul>
+           <li>
+            Wireless mechanical keyboard
+           </li>
+           <li>
+            Glass-topped multi-touch trackpad
+           </li>
+          </ul>
+         </li>
+         <li>
+          4K AMOLED 13.3” display
+         </li>
+         <li>
+          Anodized aluminum CNC chassis
+         </li>
+        </ul>
+        <div class="invert dark:invert-0">
+         <img src="/img/general.jpg"/>
+        </div>
+        <p>
+         <em>
+          General system overview
+         </em>
+        </p>
+        <h2 id="fermionic-analysis">
+         Fermionic Analysis
+        </h2>
+        <h3 id="choosing-the-chip">
+         Choosing
+         <em>
+          the
+         </em>
+         chip
+        </h3>
+        <p>
+         I looked towards single-board computer SoCs, as board manufacturers commonly release schematics for reference. In many aspects, the Rockchip RK3588 is the fastest consumer-procurable chip on the market. Despite the spotty software support, the hardware documentation has lots of developer resources and
+         <a href="https://wiki.friendlyelec.com/wiki/images/1/15/CM3588_NAS_SDK_2309_SCH.PDF" target="_blank">
+          reference schematics
+         </a>
+         from SBC manufacturers.
+        </p>
+        <p>
+         Some quick specs:
+        </p>
+        <ul>
+         <li>
+          Quad core A76 and quad core A55
+         </li>
+         <li>
+          Mali-G10 GPU
+         </li>
+         <li>
+          6TOPs NPU
+         </li>
+         <li>
+          8K@60FPS decoder
+         </li>
+         <li>
+          I/O: 8K display, dual USB3.1, PCIe 3.0 x 4, HDMI2.1/eDP 1.4, etc.
+         </li>
+        </ul>
+        <p>
+         With only a few months to work on this project, an SoM (system on module) like the Raspberry Pi CM5 presented the best option for its hardware compatibility and a high likelihood of a snug integration. Choosing an SoM also alleviates memory and other high-speed signaling concerns. Looking around for a RK3588 SoM, I came across the CM3588 by FriendlyElec. Cheap, well-documented, and easily procurable. Sounds good!
+        </p>
+        <img src="/img/cm3588.jpg"/>
+        <p>
+         <em>
+          FriendlyElec CM3588 SoM
+         </em>
+        </p>
+        <h3 id="display">
+         Display
+        </h3>
+        <p>
+         I hopped on
+         <a href="https://www.panelook.com" target="_blank">
+          panelook.com
+         </a>
+         and filtered by size and resolution. I’ve always been a sucker for high pixel density, so I went with a 4K AMOLED 13.3” display. Cross referencing stock availability on Taobao (Chinese domestic Aliexpress), the
+         <a href="https://www.panelook.com/ATNA33TP11_Samsung_13.3_OLED_parameter_59424.html" target="_blank">
+          ATNA33TP11
+         </a>
+         seemed to be the one with most
+         <em>
+          brand-new
+         </em>
+         stock since OLED risked burn-in.
+        </p>
+        <p>
+         A highlight: during display evaluation, switching out a connector and shortening the board by 2mm improved signal integrity
+         <em>
+          just enough
+         </em>
+         for the 1.5GHz x 4 signals go pass through. Getting the display running on Linux meant finding system logs from Asus laptops that have this display, reverse-engineering the values, and tuning the power-on timings amongst other things
+         <em>
+          just right
+         </em>
+         . TLDR; getting a 4K AMOLED eDP display running on non-mainline Linux was a heck of a journey, so read
+         <a href="">
+          this if you’re interested
+         </a>
+         (coming soon).
+        </p>
+        <img src="/img/screen.jpg"/>
+        <p>
+         <em>
+          ATNA33TP11 working with display evaluation board V2 short
+         </em>
+        </p>
+        <h3 id="powertrain">
+         Powertrain
+        </h3>
+        <p>
+         The cells had to be 6mm thin and four packs lined up should take roughly half of the entire chassis volume. Chinese manufacturers don’t stock batteries readily, and shipping them to the US would be a pain. Thus, I looked on the American side. I stumbled upon with
+         <a href="https://www.batteryspace.com/polymerli-ionmodule37v4250mah157wh85arate-prewiredwithpcbpl5467100.aspx" target="_blank">
+          these batteries
+         </a>
+         from AA Portable Power Corp. or batteryspace.com. or Powerizer. Doing the power calculations, we get: 4.250Ah
+         <em>
+          3.7V
+         </em>
+         4S = 62.9 Wh with max 8A (so max 134.4W discharge)! Solid.
+        </p>
+        <p>
+         The total voltage is 4.2V (peak) * 4S = 16.8V. The system’s designed for up to 20V USB-C (AKA 100W) and passed into the
+         <a href="https://www.ti.com/product/BQ25713" target="_blank">
+          BQ25713
+         </a>
+         charging IC. The batteries are balanced with the
+         <a href="https://www.ti.com/product/BQ77915" target="_blank">
+          BQ77915
+         </a>
+         to ensure safe charging, and the power is tracked with an
+         <a href="https://www.analog.com/en/products/ltc2943.html" target="_blank">
+          LTC2943
+         </a>
+         to calculate a state-of-charge percentage. I popped in an ESP32-S3 module as the controller for everything, and set it to production.
+        </p>
+        <p>
+         After writing drivers and sitting on the undecipherable datasheets for days, I had the batteries charging. I successfully
+         <a href="https://a.co/d/3b8R9mN" target="_blank">
+          load tested
+         </a>
+         it to around 5A and powered the full system. There’s still a lot of quiescent current (about ~50mA), but I haven’t had the time to optimize the firmware.
+        </p>
+        <p>
+         The USB of the ESP32 connects to the internal USB on the motherboard to feed the power telemetry over UART. A Python script and kernel module in the OS forwards it to the battery service in the kernel to display it natively.
+        </p>
+        <img src="/img/powertrain.jpg"/>
+        <p>
+         <em>
+          Powertrain V0.2 inside laptop
+         </em>
+        </p>
+        <iframe src="https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2FHello9999901%2Flaptop%2Ftree%2Fmain%2Fpower" style="width:100%;height:500px;border:none" title="KiCanvas Powertrain">
+        </iframe>
+        <p>
+         In settings, tick “Align controls with KiCad” for mouse pan/zoom/scroll
+        </p>
+        <p>
+         <a href="https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2FHello9999901%2Flaptop%2Ftree%2Fmain%2Fpower" target="_blank">
+          Powertrain V0.2 KiCanvas Full Link
+         </a>
+        </p>
+        <h3 id="mainboard">
+         Mainboard
+        </h3>
+        <p>
+         With those decisions made up, I aimed for &gt;90mm motherboard width based on a prelim CAD from the batteries and display dimensions.
+        </p>
+        <p>
+         On the physical I/O side, I settled on dual USB3.1 Type-C ports, a USB2.0 Type-A port, a headphone jack, and a microSD card slot. Internally, the M.2 E-key connects to an
+         <a href="https://a.co/d/4lJDnwX" target="_blank">
+          RTL8852BE
+         </a>
+         WiFi 6 (802.11ax) + BT5.2 wireless card and the M.2 M-key accommodates up to an 2242-sized NVMe SSD. A full size NVMe SSD can fit with some modifications of the chassis too.
+        </p>
+        <p>
+         Tangent over, this leaves me with around ~90mm of board height. Implementing all the features on the final mainboard would stretch this writeup too long, so read
+         <a href="">
+          this if you’re interested
+         </a>
+         (coming soon).
+        </p>
+        <iframe src="https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2FHello9999901%2Flaptop%2Ftree%2Fmain%2Fmotherboard" style="width:100%;height:500px;border:none" title="KiCanvas Motherboard">
+        </iframe>
+        <p>
+         In settings, tick “Align controls with KiCad” for mouse pan/zoom/scroll
+        </p>
+        <p>
+         <a href="https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2FHello9999901%2Flaptop%2Ftree%2Fmain%2Fmotherboard" target="_blank">
+          Motherboard V1.0 KiCanvas Full Link
+         </a>
+        </p>
+        <img src="/img/mainboard.jpg"/>
+        <p>
+         <em>
+          Mainboard B-roll shot
+         </em>
+        </p>
+        <div class="invert dark:invert-0">
+         <img src="/img/hardware.jpg"/>
+        </div>
+        <p>
+         <em>
+          Detailed hardware overview
+         </em>
+        </p>
+        <h3 id="operating-on-a-system">
+         Operating on a System
+        </h3>
+        <p>
+         <a href="https://github.com/Joshua-Riek/ubuntu-rockchip" target="_blank">
+          Joshua Riek’s ubuntu-rockchip
+         </a>
+         kernel/distro combined an out-of-the-box experience with lots of optimizations. Using Armbian’s kernel (I believe it’s still off Rockchip’s kernel) meant that it offered nearly all the features of the RK3588 on a developer-ready kernel configuration.
+        </p>
+        <p>
+         Since nearly all the work I needed to do was abstracted in the DeviceTree (DTS) hardware configuration language implemented with U-boot, the bootloader, I took advantage of their system-agnostic nature to speed up my trial-and-error process having never done any Linux work.
+        </p>
+        <p>
+         Instead of developing and compiling code on the RK3588 itself, I used my daily driver MacBook and Visual Studio Code. Once I made a change in the DTS, I’d use Orbstack (virtualization software) running Ubuntu 24.04 (shared filesystem and kernel with macOS) and compile the DeviceTree there.
+        </p>
+        <pre class="astro-code github-dark" data-language="txt" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0"><code><span class="line"><span>DTSI, DTS, and DTS Overlay Files (some for SoC, some for other ICs, etc.) -&gt; dtcpp binary (preprocessing &amp; linking various DeviceTree definitions) -&gt; dtc binary (DeviceTree compilation) -&gt; anyon_e.dtb (compiled DeviceTree binary!)</span></span></code></pre>
+        <p>
+         Pointing U-Boot to a custom compiled DTB (devicetree binary), I
+         <code>
+          scp
+         </code>
+         ’ed the compiled
+         <code>
+          anyon_e.dtb
+         </code>
+         to the OS. A
+         <code>
+          u-boot-update
+         </code>
+         regenerates the bootloader configurations, and a reboot updates the changes.
+        </p>
+        <p>
+         That’s how I did the hardware bringup—display configurations, PCIe, USB, and other low-level system tweaks. The rest is just a standard install of Ubuntu 24.04 LTS with Linux Kernel 6.1.
+        </p>
+        <img src="/img/working.jpg"/>
+        <p>
+         <em>
+          Testing batteries and writing DTS
+         </em>
+        </p>
+        <div class="invert dark:invert-0">
+         <img src="/img/software.jpg"/>
+        </div>
+        <p>
+         <em>
+          In-depth software overview
+         </em>
+        </p>
+        <h3 id="peripherals">
+         Peripherals
+        </h3>
+        <p>
+         Imagine being able to just pull out your laptop’s keyboard and use it as just another wireless keyboard for literally anything! Just me? Maybe.
+        </p>
+        <p>
+         Being a mechanical keyboard addict with quite a few
+         <a href="https://zmk.dev" target="_blank">
+          ZMK keyboards
+         </a>
+         designed, I chose the
+         <a href="https://github.com/pashutk/Cherry_MX_ULP" target="_blank">
+          Cherry MX ULP mechanical switches
+         </a>
+         for the best feel. Of course, a battery and fully mechanical switches add
+         <em>
+          a lot
+         </em>
+         of height. I used a 1mm thin
+         <a href="https://www.powerstream.com/thin-lithium-ion.htm" target="_blank">
+          200mAh battery
+         </a>
+         and a custom battery protection board that sticks up between two rows of keys to cut down on ~1.6mm (PCB height). The nRF52840 SoC running ZMK Firmware is right underneath the spacebar. A sandwich of PLA and 6061 aluminum from Fabworks crammed everything under ~7mm.
+        </p>
+        <p>
+         Since the keycaps aren’t easily procurable, I got a
+         <a href="https://www.printedsolid.com/products/e3d-revo-nozzles?srsltid=AfmBOopKMJDs7gFpzrJg3kHQ-aJLDFTjeFO0ZJAYf1hADzy5iurNlkLB" target="_blank">
+          0.15mm nozzle
+         </a>
+         for my Bambu Lab X1C and printed them with PLA. It got me down a rabbit hole of tungsten nozzles, and I got quoted ~$400 for 20x 0.15mm nozzles. I’ve been thinking of trying that out too. But alas, printing out all the keycaps and assembling for the last time, the keyboard was done.
+        </p>
+        <p>
+         Moving on to the trackpad, it was quite quick. I knew from the start that I wanted a good trackpad, so making my own with zero capacitive tracking experience is a no-go. Searching online, I came across the Azoteq
+         <a href="https://www.mouser.com/ProductDetail/Azoteq/PXM0057-401-S?qs=t7xnP681wgVkp9ZZYy6TPA%3D%3D" target="_blank">
+          PXM0057-401
+         </a>
+         evaluation module on Mouser. It had it all—glass surface, multi-touch, and worked over USB. And, it was only 35 bucks or so. However, the trackpad has ceased production without many alternatives.
+        </p>
+        <p>
+         With the keyboard and trackpad working, it was time to put on the finishing touches.
+        </p>
+        <iframe src="https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2FHello9999901%2Flaptop%2Ftree%2Fmain%2Fkeyboard" style="width:100%;height:500px;border:none" title="KiCanvas Keyboard">
+        </iframe>
+        <p>
+         In settings, tick “Align controls with KiCad” for mouse pan/zoom/scroll
+        </p>
+        <p>
+         <a href="https://kicanvas.org/?github=https%3A%2F%2Fgithub.com%2FHello9999901%2Flaptop%2Ftree%2Fmain%2Fkeyboard" target="_blank">
+          Keyboard V1.0 KiCanvas Full Link
+         </a>
+        </p>
+        <img src="/img/peripherals.jpg"/>
+        <p>
+         *Counterclockwise from top left: keyboard side profile, typing on keyboard, trackpad, 1mm battery on back, nRF52840 SoC area
+        </p>
+        <div class="invert dark:invert-0">
+         <img src="/img/wireframe_exploded.jpg"/>
+        </div>
+        <p>
+         <em>
+          OnShape wireframe exploded view
+         </em>
+        </p>
+        <h3 id="mechanical">
+         Mechanical
+        </h3>
+        <p>
+         Roughly the same time I began the system design, I sent a few CNC aluminum blocks off to JLC for evaluation with different anodization finishes. The dark gray anodization felt “best”, but I preferred the look of the matte black, so I settled on that.
+Using PTC OnShape, I (attempted) CAD’ed a robust and minimalistic look and a blend of my two favorite laptop lineup designs, the Razer Blade and the MacBook Pro. Because of the removable keyboard, the bottom has no screws. Instead, the palm rest screws into the bottom chassis.
+         <a href="https://cad.onshape.com/documents/a18bb6df7dbba66df24a7ec8/w/967d921e60c207e3b6f5cf7b/e/1f78a9387b17c2d178742295?renderMode=0&amp;uiState=678da20d5bee0d1ad2dd55f1" target="_blank">
+          CAD Link here.
+         </a>
+        </p>
+        <p>
+         The hardest part about the chassis was the hinge. I used
+         <a href="https://frame.work/products/display-hinge-kit?v=FRANFB0001" target="_blank">
+          Framework’s 13.3” hinge
+         </a>
+         because it has a 3D model. I constrained it in OnShape so I can see the exact closing angles.
+        </p>
+        <p>
+         The chassis layout is fairly simple: batteries on the bottom, the power board on the right, motherboard on the left, and the hinge mechanism on top. Oh, and a transparent PETG FDM printed power button that lights up on a custom PCB. To balance out the asymmetric hinge (caused by the mainboard being too wide), a little
+         <a href="https://www.mcmaster.com/2153T11/" target="_blank">
+          carbon fiber rod
+         </a>
+         lines up on the left side too.
+        </p>
+        <img src="/img/chassis_empty.jpg"/>
+        <p>
+         <em>
+          Chassis test fitting
+         </em>
+        </p>
+        <p>
+         It was a battle to get the screen assembly to not hit anything while also covering
+Although I started considering thermals way in advance, hence the gap here for the heatpipe to go through, I still had difficulty fitting everything in. The distance between the bottom of the keyboard and the top of the heatsink is less than a half a millimeter. The cooling system is really constrained because I don’t have the resources to make a custom heatpipe and fin solution. So, I made a full copper CNC heatsink (from JLCCNC) and a heatpipe connected to a fan. It’s all connected with
+         <a href="https://www.lttstore.com/products/ptm7950-phase-change-thermal-pad" target="_blank">
+          PTM7950
+         </a>
+         .
+        </p>
+        <p>
+         I also added
+         <a href="https://puiaudio.com/product/speakers-and-receivers/as04004mo-sp40" target="_blank">
+          these
+         </a>
+         PUI audio speakers on either side. The audio from the CM3588’s DAC didn’t work and I ran out of debugging time, so I made a USB to audio converter board separately and shot it through an Class-D amplifier. I would’ve also made the amp, but I ran out of time.
+        </p>
+        <p>
+         As I reached final assembly, I used a mix of JLC’s selective laser sintering (SLS) of nylon powder and FDM printed PA6-CF for smaller structural parts. Putting it all together with the matte black CNC aluminum chassis, I finally had my laptop.
+        </p>
+        <img src="/img/inside.jpg"/>
+        <p>
+         <em>
+          Inside full laptop assembly
+         </em>
+        </p>
+        <h2 id="reflection">
+         Reflection
+        </h2>
+        <p>
+         The hardest class I’ve taken so far was quantum mechanics in my junior spring term. A few months before spending hours solving time-independent and dependent Schrödinger equations, I was on the squash bus (the sport, not the vegetable). My friend suggested I make a laptop for my senior project—and that was all.
+I came up with the name anyon_e in June, after I finished the quantum course.
+        </p>
+        <p>
+         Making this laptop was hard. Mentally pressured with a deadline, and a constant inter-disciplinary challenge across electrical, software, and mechanical systems. Summing up everything I’ve ever done. It took up most of my mind from May until now.
+        </p>
+        <p>
+         Inspired by open-source projects like
+         <a href="https://zmk.dev" target="_blank">
+          ZMK
+         </a>
+         ,
+         <a href="https://www.kicad.org" target="_blank">
+          KiCAD
+         </a>
+         ,
+         <a href="https://www.blender.org" target="_blank">
+          Blender
+         </a>
+         , and countless
+         <a href="https://certification.oshwa.org/basics.html" target="_blank">
+          OSHW
+         </a>
+         projects, I want to do my own little part. To put power in people’s hands in creation, innovation, imagination, or whatever else. To attempt the impossible.
+        </p>
+        <img src="/img/conclusion.jpg"/>
+        <p>
+         Sincerely,
+         <br/>
+         <em>
+          Byran
+         </em>
+        </p>
+       </article>
+       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <a class="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 blend" href="/posts/mission">
+         <div class="order-2 w-full h-full group-hover:text-black group-hover:dark:text-white blend">
+          <div class="flex flex-wrap gap-2">
+           <div class="text-sm uppercase">
+            Prev
+           </div>
+          </div>
+          <div class="font-semibold mt-3 text-black dark:text-white">
+           The Mission
+          </div>
+         </div>
+         <svg class="order-1 stroke-current group-hover:stroke-black group-hover:dark:stroke-white rotate-180" fill="none" height="20" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+          <line class="scale-x-0 group-hover:scale-x-100 translate-x-4 group-hover:translate-x-1 transition-all duration-300 ease-in-out" x1="5" x2="19" y1="12" y2="12">
+          </line>
+          <polyline class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out" points="12 5 19 12 12 19">
+          </polyline>
+         </svg>
+        </a>
+        <a class="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out" href="/posts/mission">
+         <div class="w-full h-full text-right group-hover:text-black group-hover:dark:text-white blend">
+          <div class="text-sm uppercase">
+           Next
+          </div>
+          <div class="font-semibold mt-3 text-black dark:text-white">
+           The Mission
+          </div>
+         </div>
+         <svg class="stroke-current group-hover:stroke-black group-hover:dark:stroke-white" fill="none" height="20" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+          <line class="scale-x-0 group-hover:scale-x-100 translate-x-4 group-hover:translate-x-1 transition-all duration-300 ease-in-out" x1="5" x2="19" y1="12" y2="12">
+          </line>
+          <polyline class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out" points="12 5 19 12 12 19">
+          </polyline>
+         </svg>
+        </a>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </main>
+  <footer class="relative bg-white dark:bg-black">
+   <div class="animate">
+    <section class="py-5">
+     <div class="w-full h-full mx-auto px-5 max-w-screen-md">
+      <div class="flex items-center justify-center sm:justify-end">
+       <button aria-label="Back to top of page" class="group flex w-fit p-1.5 gap-1.5 text-sm items-center border rounded hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out" id="back-to-top">
+        <svg class="stroke-current group-hover:stroke-black group-hover:dark:stroke-white rotate-90" fill="none" height="20" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+         <line class="scale-x-0 group-hover:scale-x-100 translate-x-3 group-hover:translate-x-0 transition-all duration-300 ease-in-out" x1="19" x2="5" y1="12" y2="12">
+         </line>
+         <polyline class="translate-x-1 group-hover:translate-x-0 transition-all duration-300 ease-in-out" points="12 19 5 12 12 5">
+         </polyline>
+        </svg>
+        <div class="w-full group-hover:text-black group-hover:dark:text-white transition-colors duration-300 ease-in-out">
+         Back to top
+        </div>
+       </button>
+      </div>
+     </div>
+    </section>
+    <section class="py-5 overflow-hidden whitespace-nowrap border-t border-black/10 dark:border-white/25">
+     <div class="w-full h-full mx-auto px-5 max-w-screen-md">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+       <div class="flex flex-col items-center sm:items-start">
+        <a class="flex gap-1 w-fit font-semibold text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out" href="/">
+         <svg class="size-6 fill-current">
+          <use href="/brand.svg#brand">
+          </use>
+         </svg>
+         anyon_e
+        </a>
+       </div>
+       <div class="flex gap-2 justify-center sm:justify-end items-center">
+        <span class="relative flex h-3 w-3">
+         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-300">
+         </span>
+         <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500">
+         </span>
+        </span>
+        Attempt the impossible.
+       </div>
+      </div>
+     </div>
+    </section>
+    <section class="py-5 overflow-hidden whitespace-nowrap border-t border-black/10 dark:border-white/25">
+     <div class="w-full h-full mx-auto px-5 max-w-screen-md">
+      <div class="h-full grid grid-cols-1 sm:grid-cols-2 gap-3">
+       <div class="order-2 sm:order-1 flex flex-col items-center justify-center sm:items-start">
+        <div class="text-sm mt-2">
+         © 2024 |
+         <a href="https://github.com/Hello9999901/laptop?tab=MIT-1-ov-file#readme">
+          MIT License
+         </a>
+         . Using
+         <a class="underline underline-offset-2" href="https://astro.build/themes/details/astrosphere/">
+          Astro Sphere
+         </a>
+        </div>
+       </div>
+       <div class="order-1 sm:order-2 flex justify-center sm:justify-end">
+        <div class="flex flex-wrap gap-1 items-center justify-center">
+         <a aria-label="anyon_e on Email" class="group size-10 rounded-full p-2 items-center justify-center hover:bg-black/5 dark:hover:bg-white/20 blend" href="/cdn-cgi/l/email-protection#afcdd6ddcec1efc2ddd781caca" target="_blank">
+          <svg class="size-full fill-current group-hover:fill-black group-hover:dark:fill-white blend">
+           <use href="/social.svg#email">
+           </use>
+          </svg>
+         </a>
+         <a aria-label="anyon_e on Github" class="group size-10 rounded-full p-2 items-center justify-center hover:bg-black/5 dark:hover:bg-white/20 blend" href="https://github.com/Hello9999901/laptop" target="_blank">
+          <svg class="size-full fill-current group-hover:fill-black group-hover:dark:fill-white blend">
+           <use href="/social.svg#github">
+           </use>
+          </svg>
+         </a>
+         <a aria-label="anyon_e on LinkedIn" class="group size-10 rounded-full p-2 items-center justify-center hover:bg-black/5 dark:hover:bg-white/20 blend" href="https://www.linkedin.com/in/byran-huang/" target="_blank">
+          <svg class="size-full fill-current group-hover:fill-black group-hover:dark:fill-white blend">
+           <use href="/social.svg#linkedin">
+           </use>
+          </svg>
+         </a>
+         <a aria-label="anyon_e on Main Website" class="group size-10 rounded-full p-2 items-center justify-center hover:bg-black/5 dark:hover:bg-white/20 blend" href="https://byran.tech" target="_blank">
+          <svg class="size-full fill-current group-hover:fill-black group-hover:dark:fill-white blend">
+           <use href="/social.svg#website">
+           </use>
+          </svg>
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </div>
+  </footer>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js">
+  </script>
   <script>
-   (RLQ=window.RLQ||[]).push(function(){mw.config.set({"wgBackendResponseTime":92,"wgPageParseReport":{"limitreport":{"cputime":"0.010","walltime":"0.031","ppvisitednodes":{"value":36,"limit":1000000},"postexpandincludesize":{"value":0,"limit":209715200},"templateargumentsize":{"value":0,"limit":209715200},"expansiondepth":{"value":2,"limit":100},"expensivefunctioncount":{"value":0,"limit":100},"unstrip-depth":{"value":0,"limit":20},"unstrip-size":{"value":1332,"limit":5000000},"timingprofile":["100.00%    0.000      1 -total"]},"cachereport":{"timestamp":"20250120124644","ttl":86400,"transientcontent":false}}});});
+   function goBackToTop(event) {
+    event.preventDefault()
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    })
+  }
+
+  function inintializeBackToTop() {
+    const backToTop = document.getElementById("back-to-top")
+    backToTop?.addEventListener("click", goBackToTop)
+  }
+
+  document.addEventListener("astro:after-swap", inintializeBackToTop)
+  inintializeBackToTop()
   </script>
  </body>
 </html>

@@ -5,11 +5,10 @@ import textwrap
 from tabulate import tabulate
 
 import google.generativeai as genai
-from google.generativeai import protos
 
-from config import ORCHESTRATOR_PROMPT, PLAN_CRITIC_PROMPT, RESEARCHER_PROMPT, PARSER_PROMPT
-from tools.screenshot import save_screenshot
-from tools.browser import scrape_static_source, scrape_dynamic_source
+from config import ORCHESTRATOR_PROMPT, PLAN_CRITIC_PROMPT, RETRIEVER_PROMPT, RESEARCHER_PROMPT, PARSER_PROMPT
+from tools.retriever import get_tasks
+from tools.researcher import scrape_static_source, scrape_dynamic_source
 from tools.parser import parse_text
 from utils import extract_xml
 
@@ -32,6 +31,7 @@ class Assistant:
     role_mapping = {
         ORCHESTRATOR_PROMPT: "orchestrator",
         PLAN_CRITIC_PROMPT: "critic",
+        RETRIEVER_PROMPT: "retriever",
         RESEARCHER_PROMPT: "researcher",
         PARSER_PROMPT: "parser"
     }
@@ -53,10 +53,10 @@ class Assistant:
     return self.process_response(response)
 
   functions = {
+    "get_tasks": get_tasks,
     "scrape_static_source": scrape_static_source,
     "scrape_dynamic_source": scrape_dynamic_source,
     "parse_text": parse_text,
-    "save_screenshot": save_screenshot
   }
 
   def call_function(self, func_name, func_params):
@@ -77,7 +77,10 @@ class Assistant:
           func_name = tool_use['name']
           func_params = tool_use['args']
           tool_result = self.call_function(func_name, func_params)
-          self.messages.append({"role": "user", "parts": [{"text": f"<tool_result>{tool_result}</tool_result"}]})
+          self.messages.extend([
+            {"role": "user", "parts": [{"text": f"<tool_result>{tool_result}</tool_result>"}]},
+            {"role": "model", "parts": [{"text": f"{tool_result}"}]},
+          ])
           result += tool_result
         else:
           if part['text'].strip():
