@@ -2,12 +2,14 @@
 
 ![Welcome to Aura](/img/onboarding.jpeg)
 
-This is an attempt to reimplement Claude computer use but with Gemini.
+This started as [an attempt to reimplement Claude's computer use but with Gemini](https://alfredlua.substack.com/p/alfred-intelligence-3-building-an) but has evolved into a multi-agent assistant who can visit websites and summarize information.
 
 Updates:
-- 20/1/2025: I split the assistant into four agents: Orchestrator, Plan Critic, Researcher, and Planner (to learn about creating multi-agent systems). See [`multi-agent` branch](https://github.com/alfredlua/assistant-aura/tree/multi-agent). 
-- 17/1/2025: I added support for Claude 3 Haiku (to keep cost low).
-- 14/1/2025: I created a basic terminal-based chat app that can visit websites (and websites within websites) and summarize them. It has several tools: visit a URL, scrape a URL with Beautiful Soup into a temp file, parse a file with an LLM, and take a screenshot. 
+
+- 23/1/2025: I added a new agent, Retriever, which finds relevant information from a local database of past tasks and results (to learn about RAG).
+- 20/1/2025: I split the assistant into four agents: Orchestrator, Plan Critic, Researcher, and Planner (to learn about creating multi-agent systems). 
+- 17/1/2025: I added support for Claude 3 Haiku (to keep cost low). For updates from here and earlier, see the [`single-agent` branch](https://github.com/alfredlua/assistant-aura/tree/single-agent). 
+- 14/1/2025: I created a basic terminal-based chat app that can visit websites (and websites within websites) and summarize them. It has several tools: visit a URL, scrape a URL with Beautiful Soup into a temp file, parse a file with an LLM, and take a screenshot. It uses Gemini 1.5 Flash (because it's free).
 
 ---
 
@@ -15,23 +17,36 @@ Updates:
 
 ![Test example](/img/example.jpeg)
 
-Upon receiving a detailed instruction, it can visit websites (and websites within websites) and summarize them. After it completes the task, it will also give you a report on what it did. 
+Upon receiving a task, it can visit websites (and websites within websites) and summarize them. 
 
-Here are some examples:
+For "summarize the top post on hn", it returned:
 
-For "Go to sciurls.com, find the first 3 articles, visit each of the links, and tell me what each is about", it returned:
+>This post details reverse engineering the Bambu Connect Electron app, highlighting its inherent insecurity due to relying on security through obscurity. The instructions involve extracting the app's main.js file, fixing an asar archive, and using Ghidra to locate and extract a private key. Finally, the post provides a Python script to further deobfuscate and extract certificates and the private key from the app. [https://wiki.rossmanngroup.com/wiki/Reverse_Engineering_Bambu_Connect](https://wiki.rossmanngroup.com/wiki/Reverse_Engineering_Bambu_Connect)
 
->Here's a summary of the three articles:
->
->1. **OpenAI's o3 Chatbot and the Quest for AGI:** This article discusses OpenAI's new chatbot model, o3, which achieved a record-breaking score on the ARC-AGI test, a benchmark for assessing AI's reasoning and generalization abilities.  However, the article emphasizes the challenges in definitively measuring AGI and highlights the high computational cost and lack of a universally agreed-upon definition of AGI.
-> 
->2. **A New Formation Mechanism for the Pluto-Charon Binary System:** This article summarizes a study proposing a novel "kiss and capture" mechanism for the formation of Pluto's moon, Charon, using simulations with solid proto-bodies instead of the previously assumed fluid ones.
->
->3. **Sang-Wook Han on Quantum Computing at KIST:** This article features an interview with Sang-Wook Han, discussing the potential of quantum computing and the challenges in its widespread industrial application.  It highlights the technology's potential across various fields while acknowledging the years needed before industrial-scale production becomes a reality.
+---
 
-For "Go to Hacker News, find the first 3 posts, visit each of the links, and tell me what each is about", it returned:
+## How it works
 
-> The first story is about malicious NPM packages targeting Cursor.com, published by a Snyk security researcher. The second story is about the release of OpenZFS 2.3.0, which includes features like RAIDZ expansion and improved deduplication performance.  The third is about Shavarsh Karapetyan, a Soviet-Armenian finswimming champion who rescued dozens of people from a trolleybus that plunged into Lake Yerevan.
+This AI assistant consists of four agents:
+
+1. **Orchestrator:** This agent comes up with the plan for the task, coordinates the work with the various agents, and updates the plan if necessary.
+2. **Plan Critic:** This agent evaluates the plan by the Orchestrator and suggests improvements, up to three times.
+3. **Retriever:** This agent retrieves relevant information from a local database, which stores past tasks and results.
+4. **Researcher:** This agent has tools to scrape the source code of a website and save it to a file (temp/working_memory.txt).
+5. **Parser:** This agent has a tool to extract information from temp/working_memory.txt using an LLM.
+
+Here’s a rough flow of how the agents work together to complete a task:
+
+![With RAG](/img/assistant-with-rag.jpeg)
+
+1. The Orchestrator receives a task from the user, such as “summarize the first post on hn”, and comes up with a plan for his team.
+2. The Plan Critic evaluates the plan and suggests improvements, up to three times. 
+3. When the plan is good to go, the teammates work through each step sequentially. 
+    1. The plan always starts with the Retriever. It searches for relevant information from a local database, which stores previous tasks and results.
+    2. If no relevant task or result is found, the Researcher scrapes a given website and the Parser extracts specific information or summarizes the content of the website.
+    3. After each step, the Orchestrator reviews the result from the respective teammate and updates the plan until the task is completed.
+4. The Orchestrator informs the user of the answer.
+5. The completed task and result are saved to the local database as text documents and embeddings.
 
 ---
 
@@ -39,6 +54,7 @@ For "Go to Hacker News, find the first 3 posts, visit each of the links, and tel
 
 Well, it wouldn't be an app without issues. So, here goes:
 
-- It is lazy. If you ask it, "what's the first post on Hacker News?", it will only find the title of the post and guess what it is about. You have to specifically instruct it to visit the post. Oh, where's the AI that will replace me?
-- It doesn't work well with dynamically-loaded sites. I have added a function for scraping with Selenium but sites such as Reddit blocks Selenium.
-- It does fail sometimes. Like humans, once it failed, it will sometimes be too demotivated to try again. But like all computer systems, you can turn it off and on and try again.
+- ~~It is lazy. If you ask it, "what's the first post on Hacker News?", it will only find the title of the post and guess what it is about. You have to specifically instruct it to visit the post. Oh, where's the AI that will replace me?~~ I updated the system prompt to make it less lazy.
+- It cannot search on Google or use your computer (yet).
+- It doesn't work well with dynamically-loaded sites. I have added a function for scraping with Selenium but sites such as Reddit block Selenium.
+- It does fail sometimes. Like humans, once it fails, it will sometimes be too demotivated to try again. But like all computer systems, you can turn it off and on and try again.
